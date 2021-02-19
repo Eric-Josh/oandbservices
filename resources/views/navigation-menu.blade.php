@@ -12,9 +12,45 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    
+                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+
+                    <x-jet-dropdown >
+                        <x-slot name="trigger">
+                            <x-jet-nav-link href="#" :active="request()->routeIs(['jobs','jobs.create'])" class=" dropdown-toggle" style="margin-top:18px">
+                                {{ __('Jobs') }}
+                            </x-jet-nav-link>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-jet-dropdown-link href="{{ route('jobs.create') }}">
+                                    {{ __('Post New Jobs') }}
+                            </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="{{ route('jobs') }}">
+                                    {{ __('View Job History') }}
+                            </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown >
+
+                    <x-jet-dropdown >
+                        <x-slot name="trigger">
+                            <x-jet-nav-link href="#" :active="request()->routeIs(['gmerchandise','gmerchandise.create'])" class=" dropdown-toggle" style="margin-top:18px">
+                                {{ __('General Merchandise') }}
+                            </x-jet-nav-link>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-jet-dropdown-link href="{{ route('gmerchandise.create') }}">
+                                    {{ __('Post New Request') }}
+                            </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="{{ route('gmerchandise') }}">
+                                    {{ __('View Job History') }}
+                            </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown >
+
                 </div>
             </div>
 
@@ -79,7 +115,7 @@
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                    <button type="button" style="border:opx;" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -140,6 +176,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-nav-link href="{{ route('jobs') }}" :active="request()->routeIs(['jobs','jobs.create'])">
+                {{ __('Post a Job') }}
             </x-jet-responsive-nav-link>
         </div>
 
