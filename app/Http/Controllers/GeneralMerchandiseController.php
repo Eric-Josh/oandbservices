@@ -17,7 +17,8 @@ class GeneralMerchandiseController extends Controller
     public function index()
     {
         $merchandise = Merchandise::orderBy('merchandise', 'asc')->get();
-        $generalMerchandise = GeneralMerchandise::paginate(10);
+        $generalMerchandise = GeneralMerchandise::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(10);
+
         return view('general-merchandise.index', compact('generalMerchandise'))->with('merchandise', $merchandise);
     }
 
@@ -29,6 +30,7 @@ class GeneralMerchandiseController extends Controller
     public function create()
     {
         $merchandise = Merchandise::orderBy('merchandise', 'asc')->get();
+        
         return view('general-merchandise.create')->with('merchandise', $merchandise);;
     }
 
@@ -93,6 +95,7 @@ class GeneralMerchandiseController extends Controller
                             ->subject('Merchandise - New Job Post');
         });
         $postMerchandise->save();
+
         return redirect('/general-merchandise')->withStatus(__('Job posted successfully. Kindly check your mailbox'));
     }
 
@@ -106,6 +109,7 @@ class GeneralMerchandiseController extends Controller
     {
         $merchandise = Merchandise::orderBy('merchandise', 'asc')->get();
         $generalMerchandise = GeneralMerchandise::find($id);
+
         return view('general-merchandise.show', compact('generalMerchandise'))->with('merchandise', $merchandise);
     }
 
@@ -119,6 +123,7 @@ class GeneralMerchandiseController extends Controller
     {
         $merchandise = Merchandise::orderBy('merchandise', 'asc')->get();
         $generalMerchandise = GeneralMerchandise::find($id);
+
         return view('general-merchandise.edit', compact('generalMerchandise'))->with('merchandise', $merchandise);
     }
 
@@ -163,6 +168,7 @@ class GeneralMerchandiseController extends Controller
     {
         $gmerchandise = GeneralMerchandise::find($id);
         $gmerchandise->delete();
+
         return redirect('/general-merchandise')->withStatus(__('Job deleted successfully.'));
     }
 }

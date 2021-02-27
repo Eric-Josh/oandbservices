@@ -25,29 +25,42 @@
                 <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
             </div>
 
-            <div class="block mt-4">
+            <!-- <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-jet-checkbox id="remember_me" name="remember" />
                     <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>
+            </div> -->
+
+            <div class="flex items-center justify-center mt-4">
+
+                <!-- <label for="remember_me" class="flex items-center">
+                    <x-jet-checkbox id="remember_me" name="remember" />
+                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                </label> -->
+
+                <x-jet-button class="ml-4 ">
+                    {{ __('Login') }} 
+                </x-jet-button> 
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div style="text-align:center;" >
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <p><a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
-                    </a>
+                    </a></p>
                 @endif
-
-                <x-jet-button class="ml-4">
-                    {{ __('Login') }}
-                </x-jet-button>
-               
             </div>
-            <div style="text-align:center; margin-top: 30px" >
+            <div class="text-sm" style="text-align:center; margin-top: 30px" >
+                        {{ __('Dont have an account?')}}
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
-                        {{ __('Dont have an account?') }}
+                        {{ __('Register') }}
                 </a>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <x-jet-button class="ml-4 ">
+                    <a href="{{ route('handyman-register') }}">{{ __('Become a Handyman') }} </a>
+                </x-jet-button> 
             </div>
             
         </form>

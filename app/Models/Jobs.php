@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\JobTypes;
+use App\Models\User;
+
 class Jobs extends Model
 {
     use HasFactory;
@@ -20,6 +23,7 @@ class Jobs extends Model
         'time_frame',
         'status',
         'user_id',
+        'assigned_to',
         'photo',
         'location',
         'reference_id',
@@ -28,13 +32,18 @@ class Jobs extends Model
 
     ];
 
-    public function JobTypes()
+    public function jobTypes()
     {
-        return $this->belongsTo('App\Models\JobTypes', 'job_id','id');
+        return $this->belongsTo(JobTypes::class, 'job_id','id');
     }
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id','id');
+    }
+
+    public function assigned()
+    {
+        return $this->belongsTo(User::class, 'assigned_to','id');
     }
 }

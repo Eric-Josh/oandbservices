@@ -15,6 +15,7 @@ class JobTypesController extends Controller
     public function index()
     {
         $jobTypes = JobTypes::paginate(20);
+        
         return view('jobTypes.index', compact('jobTypes'));
     }
 
@@ -43,6 +44,7 @@ class JobTypesController extends Controller
             'name' => $request->get('jobtype')
         ]);
         $jobTypes->save();
+
         return redirect('/jobtypes')->withStatus(__('Job Type successfully created.'));
     }
 
@@ -66,6 +68,7 @@ class JobTypesController extends Controller
     public function edit($id)
     {
         $jobTypes = JobTypes::find($id);
+
         return view('jobTypes.edit', compact('jobTypes'));
     }
 
@@ -95,6 +98,7 @@ class JobTypesController extends Controller
     {
         $jobTypes = JobTypes::find($id);
         $jobTypes->delete();
+
         return redirect('/jobtypes')->withStatus('success', 'Job Type deleted!');
     }
 }

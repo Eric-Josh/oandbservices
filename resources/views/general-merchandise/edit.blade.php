@@ -34,7 +34,7 @@
                                 @method('put')
                                 <div class="form-group">
                                     <label for="merchandise" class="labels">What would you like to have done?</label>
-                                    <select class="custom-select" name="merchandise" required >
+                                    <select class="custom-select block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" name="merchandise" required >
                                         <option selected>Choose a merchandise</option>
                                         @foreach ($merchandise as $merchandises)
                                         <option value="{{ $merchandises->id }}" {{ $generalMerchandise->merchandise_id == $merchandises->id ? 'selected' : '' }}>{{ $merchandises->merchandise }}</option>
@@ -46,7 +46,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label for="description" class="labels">Describe Job in details</label>
-                                        <textarea class="form-control" rows="5" id="desc" name="description" required >{{ $generalMerchandise->description }}</textarea>
+                                        <textarea class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" rows="5" id="desc" name="description" required >{{ $generalMerchandise->description }}</textarea>
                                         <span id="desc-notice" style="color:red"></span>
                                         <p>Include the size and the scope of the work</p>
                                         <p>At least 30 characters please</p>
@@ -83,20 +83,20 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="description" class="labels">How much is your budget?</label>
-                                            <input type="text" class="form-control form-control" id="amount" name="amount" value="{{ $generalMerchandise->amount }}" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="amount" name="amount" value="{{ $generalMerchandise->amount }}" required />
                                         </div> 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="phone" class="labels">Phone Number </label>
-                                            <input type="text" class="form-control form-control" id="phone" name="phone" value="{{ $generalMerchandise->phone }}" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="phone" name="phone" value="{{ $generalMerchandise->phone }}" required />
                                         </div> 
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="location" class="labels">Location </label>
-                                    <input type="text" class="form-control form-control" id="location" name="location"  value="{{ $generalMerchandise->location }}"  required />
+                                    <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="location" name="location"  value="{{ $generalMerchandise->location }}"  required />
                                 </div> 
 
                                 

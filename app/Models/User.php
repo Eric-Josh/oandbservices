@@ -10,6 +10,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\JobTypes;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -27,6 +29,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_type',
+        'job_type_id',
     ];
 
     /**
@@ -58,4 +62,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function jobtypes()
+    {
+        return $this->belongsTo(JobTypes::class, 'job_type_id', 'id');
+    }
 }

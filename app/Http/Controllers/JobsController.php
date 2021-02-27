@@ -16,7 +16,10 @@ class JobsController extends Controller
      */
     public function index()
     {
-        $jobs = Jobs::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(10);
+        $jobs = Jobs::where('user_id', auth()->user()->id)
+                    ->where('deleted_at', null)
+                    ->orderBy('id', 'desc')->paginate(10);
+
         return view('jobs.index', compact('jobs'));
     }
 
@@ -28,6 +31,7 @@ class JobsController extends Controller
     public function create()
     {
         $jobTypes = JobTypes::orderBy('name', 'asc')->get();
+
         return view('jobs.create')->with('jobtypes', $jobTypes);
     }
 
@@ -87,7 +91,7 @@ class JobsController extends Controller
         $postJob->status = 'Pending';
         $postJob->user_id = auth()->user()->id;
         $postJob->date_requested = date('Y-m-d H:m:s');
-        $postJob->date_completed = date('Y-m-d H:m:s');
+        $postJob->date_completed = '';
         $postJob->reference_id = rand().date('Ymd');
         $postJob->photo = implode("|",$jobImage);
         $postJob->location = $request->get('location');
@@ -132,6 +136,7 @@ class JobsController extends Controller
             }
         });
         $postJob->save();
+        
         return redirect('/jobs')->withStatus(__('Job posted successfully. Kindly check your mailbox'));
     }
 
@@ -146,6 +151,7 @@ class JobsController extends Controller
     {
         $jobTypes = JobTypes::orderBy('name', 'asc')->get();
         $jobs = Jobs::find($id);
+
         return view('jobs.show', compact('jobs'))->with('jobtypes', $jobTypes);
     }
 
@@ -159,6 +165,7 @@ class JobsController extends Controller
     {
         $jobTypes = JobTypes::orderBy('name', 'asc')->get();
         $jobs = Jobs::find($id);
+
         return view('jobs.edit', compact('jobs'))->with('jobtypes', $jobTypes);
     }
 
@@ -224,6 +231,7 @@ class JobsController extends Controller
     {
         $jobs = Jobs::find($id);
         $jobs->delete();
+
         return redirect('/jobs')->withStatus(__('Job deleted successfully.'));
     }
 

@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/ico" href="{{ asset('images/favicon.ico') }}"/>
 
         <title>O & B Services</title>
 
@@ -74,7 +75,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	        <div class="container">
-                <a class="navbar-brand" href="{{ url('/guest') }}"><img src="{{ asset('images/dashboard-nav-72x72.png') }}" title="O & B Services"></a>
+                <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('images/dashboard-nav-72x72.png') }}" title="O & B Services"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="fa fa-bars"></span> Menu
                 </button>
@@ -86,10 +87,25 @@
                         @else
                         <li class="nav-item "><a href="{{ route('register') }}" class="nav-link" data-toggle="tooltip" data-placement="bottom" title="Post a Job">Post a Job</a></li> 
                         <li class="nav-item "><a href="#footer" class="nav-link" data-toggle="tooltip" data-placement="bottom" title="General Merchandise">General Merchandise</a></li> 
-                        <li class="nav-item " style="border-left: solid yellow 2px;"><a href="{{ route('login') }}" class="nav-link" data-toggle="tooltip" data-placement="bottom" title="Login">Login</a></li>
+                        <li class="nav-item " style="border-left: solid yellow 2px;">
+                            <a href="{{ route('login') }}" class="nav-link" data-toggle="tooltip" data-placement="bottom" title="Login">
+                                Login
+                            </a>
+                        </li>
                             @if (Route::has('register'))
                             <li class="nav-item "><a href="{{ route('register') }}" class="nav-link" data-toggle="tooltip" data-placement="bottom" title="Register">Register</a></li>
                             @endif
+                        <li class="nav-item ">
+                            <ul class="nav nav-pills" role="tablist">
+                            <li class="nav-item">
+                                <!-- <a class="nav-link active" data-toggle="pill" href="#jobs">Jobs</a> -->
+                                <a class="nav-link active" data-toggle="tooltip" href="{{ route('handyman-register') }}" data-placement="bottom" 
+                                    title="Register as Handy Man" style="background-color: #2A97EF; border-radius:25px; padding:10px 25px; margin-top:20px; color:#ffffff">
+                                    Become a Handy Man
+                                </a>
+                            </li>
+                            </ul>
+                        </li> 
                         @endauth
                     </ul>
                 </div>
@@ -98,7 +114,7 @@
         </nav>
         <!-- END nav -->
 
-        <div class="hero-wrap js-fullheight" style="background-image: url('{{ asset('images/bg_1.jpg') }}');" data-stellar-background-ratio="0.5">
+        <div class="hero-wrap js-fullheight" style="background-image: url('{{ asset('images/obs_bg1.jpg') }}');" data-stellar-background-ratio="0.5">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
@@ -117,7 +133,7 @@
             <div class="container">
                 <div class="row d-flex no-gutters">
                     <div class="col-md-6 d-flex">
-                        <div class="img d-flex align-items-center justify-content-center py-5 py-md-0" style="background-image:url('{{ asset('images/about.jpg') }}');">
+                        <div class="img d-flex align-items-center justify-content-center py-5 py-md-0" style="background-image:url('{{ asset('images/obs_bg2.jpg') }}');">
                             <div class="time-open-wrap">
                                 <div class="desc p-4">
                                     <h2>Business Hours</h2>
@@ -426,17 +442,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li><a href="#" class="py-1 d-block">Barber</a></li>
-                                    <li><a href="#" class="py-1 d-block">Hairdresser</a></li>
-                                    <li><a href="#" class="py-1 d-block">Photographer</a></li>
-                                    <li><a href="#" class="py-1 d-block">Catering</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Barber</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Hairdresser</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Photographer</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Catering</a></li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li><a href="#" class="py-1 d-block">Makeup Artist</a></li>
-                                    <li><a href="#" class="py-1 d-block">Decorator</a></li>
-                                    <li><a href="#" class="py-1 d-block">Event Planner</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Makeup Artist</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Decorator</a></li>
+                                    <li><a href="{{ route('gmerchandise.create') }}" class="py-1 d-block">Event Planner</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -468,9 +484,7 @@
                 <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
                 <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/>
             </svg>
-        </div>
-
-       
+        </div>       
 
         <!-- Scripts -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

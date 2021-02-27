@@ -22,6 +22,7 @@ class CreateGeneralMerchandise extends Migration
             $table->string('time_frame');
             $table->string('status');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('assigned_to');
             $table->string('location');
             $table->timestamps();
 

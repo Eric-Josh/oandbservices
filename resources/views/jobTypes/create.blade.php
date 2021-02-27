@@ -31,7 +31,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="jobtype">Job Type</label>
-                                    <input type="text" class="form-control"  name="jobtype">
+                                    <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm""  name="jobtype">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>

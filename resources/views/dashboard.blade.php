@@ -13,10 +13,10 @@
                     <div class="card bg-info">
                     <div class="card-body text-center">
                         <div class="row">
-                            <div class="col-sm-4"><span class="material-icons box-icon">sync_alt</span></div>
-                            <div class="col-sm-8">
+                            <div class="col-xs-4"><span class="material-icons box-icon">sync_alt</span></div>
+                            <div class="col-xs-8">
                                 <p class="card-text inner-text">TOTAL JOBS</p>
-                                <p class="count-text"> {{ $job->where('deleted_at', null)->count() }} </p>
+                                <p class="count-text">{{ $totalJobCum }} <p>
                             </div>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                         <div class="row">
                             <div class="col-xs-4"><span class="material-icons box-icon">done_all</span></div>
                             <div class="col-xs-8">
-                                <p class="card-text inner-text">COMPLETED JOBS</p>
-                                <p class="count-text"> {{ $job->where('status','completed')->count() }} </p>
+                                <p class="card-text inner-text">COMPLETED </p>
+                                <p class="count-text"> {{ $statusCompleted }} </p>
                             </div>
                         </div>
                     </div>
@@ -37,8 +37,8 @@
                         <div class="row">
                             <div class="col-xs-4"><span class="material-icons box-icon">schedule</span></div>
                             <div class="col-xs-8">
-                                <p class="card-text inner-text">PENDING JOBS</p>
-                                <p class="count-text"> {{ $job->where('status','Pending')->count() }} </p>
+                                <p class="card-text inner-text">PENDING </p>
+                                <p class="count-text"> {{ $statusPending }} </p>
                             </div>            
                         </div>        
                     </div>
@@ -48,7 +48,7 @@
                 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
                     <div class="p-6">
                         <div class="flex items-center">
-                            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">Jobs History</div>
+                            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">Recent Jobs</div>
                         </div>
                     </div>   
                 </div>
@@ -59,36 +59,71 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered ">
-                        <thead class="thead-dark">
-                            <tr>
-                                <!-- <th scope="col">S/N</th> -->
-                                <th scope="col">Job Title</th>  
-                                <th scope="col">Amount</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Request Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <!-- @php $i = 1; @endphp -->
-                                @foreach($jobs as $job)
-                                <tr>
-                                    <!-- <th scope="row">{{ $i }}</th> -->
-                                    <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->job_title }}</a></td>
-                                    <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->amount }}</a></td>
-                                    <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->status }}</a></td>
-                                    <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->created_at->format('j F, Y') }}</a></td>
-                                    <!-- @php $i++; @endphp   -->
-                                @endforeach
-                            </tr>
-                        </tbody>
-                        </table>
+                    <div class="container">
+                        <ul class="nav nav-pills" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#jobs">Jobs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#merchandise">General Merchandise</a>
+                            </li>
+                        </ul>
                     </div>
+
+                    <div class="tab-content">
+                        <div id="jobs" class="container tab-pane active"><br>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered ">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <!-- <th scope="col">S/N</th> -->
+                                            <th scope="col">Job Title</th>  
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Request Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($recentJobs as $recentJob)
+                                        <tr>
+                                            <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->job_title }}</a></td>
+                                            <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->amount }}</a></td>
+                                            <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->status }}</a></td>
+                                            <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->created_at->format('j F, Y') }}</a></td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="merchandise" class="container tab-pane fade"><br>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered ">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Merchandise</th>  
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Request Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($recentMerchantJobs as $recentMerchantJob)
+                                        <tr>
+                                            <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->merchandise->merchandise }}</a></td>
+                                            <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->amount }}</a></td>
+                                            <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->status }}</a></td>
+                                            <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->created_at->format('j F, Y') }}</a></td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
-
-
             </div>
         </div>
     </div>

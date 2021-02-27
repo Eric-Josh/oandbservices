@@ -15,6 +15,7 @@ class MerchandiseController extends Controller
     public function index()
     {
         $merchandise = Merchandise::paginate(20);
+        
         return view('merchandise.index', compact('merchandise'));
     }
 
@@ -43,6 +44,7 @@ class MerchandiseController extends Controller
             'merchandise' => $request->get('merchandise')
         ]);
         $merchandise->save();
+
         return redirect('/merchandise')->withStatus(__('New Merchandise successfully created.'));
     }
 
@@ -66,6 +68,7 @@ class MerchandiseController extends Controller
     public function edit($id)
     {
         $merchandise = Merchandise::find($id);
+
         return view('merchandise.edit', compact('merchandise'));
     }
 
@@ -95,6 +98,7 @@ class MerchandiseController extends Controller
     {
         $merchandise = Merchandise::find($id);
         $merchandise->delete();
+
         return redirect('/merchandise')->withStatus('success', 'Merchandise deleted!');
     }
 }
