@@ -21,6 +21,7 @@
                         </div>
                     </div>
                     </div>
+                    
                     <div class="card bg-success ">
                     <div class="card-body text-center">
                         <div class="row">
@@ -88,7 +89,11 @@
                                         <tr>
                                             <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->job_title }}</a></td>
                                             <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->amount }}</a></td>
-                                            <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->status }}</a></td>
+                                            @if($recentJob->status == "Pending")
+                                            <td><span class="badge badge-warning">{{ $recentJob->status }}</span></td>
+                                            @else
+                                            <td><span class="badge badge-success">{{ $recentJob->status }}</span></td>
+                                            @endif
                                             <td><a href="{{ route('jobs.show', $recentJob->id) }}">{{ $recentJob->created_at->format('j F, Y') }}</a></td>
                                         </tr>
                                         @endforeach
@@ -113,7 +118,11 @@
                                         <tr>
                                             <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->merchandise->merchandise }}</a></td>
                                             <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->amount }}</a></td>
-                                            <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->status }}</a></td>
+                                            @if($recentMerchantJob->status == "Pending")
+                                            <td><span class="badge badge-warning">{{ $recentMerchantJob->status }}</span></td>
+                                            @else
+                                            <td><span class="badge badge-success">{{ $recentMerchantJob->status }}</span></td>
+                                            @endif
                                             <td><a href="{{ route('gmerchandise.show', $recentMerchantJob->id) }}">{{ $recentMerchantJob->created_at->format('j F, Y') }}</a></td>
                                         </tr>
                                         @endforeach

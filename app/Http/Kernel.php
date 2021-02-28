@@ -4,6 +4,7 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\CheckRegistrationCompletedMiddleware;
+use App\Http\Middleware\CheckBasicUserTypeMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -64,5 +65,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'handyman_registration_completed' => CheckRegistrationCompletedMiddleware::class,
+        'check_login_user_type' => CheckBasicUserTypeMiddleware::class,
     ];
 }

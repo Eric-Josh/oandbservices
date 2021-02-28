@@ -9,6 +9,7 @@ use App\Http\Controllers\MerchandiseController;
 use App\Http\Controllers\GeneralMerchandiseController;
 use App\Http\Controllers\HandyManController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReviewsController;
 
 use App\Models\Jobs;
 use App\Models\GeneralMerchandise;
@@ -39,40 +40,42 @@ Route::get('/handyman-register', function () {
 // handyman registration post route
 Route::post('/handyman-register', [HandyManController::class, 'register'])->name('handyman-register.register');
 
-// user dashboard
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-
-    /* This is for recent jobs table list */
-    $recentJobs = Jobs::where('user_id', auth()->user()->id)
-                ->orderBy('id', 'desc')->take(10)->get();
-    
-    /* This is for recent merchandise jobs table list */
-    $recentMerchantJobs = GeneralMerchandise::where('user_id', auth()->user()->id)
-                ->orderBy('id', 'desc')->take(10)->get();
-
-    /* This is for job count */
-    $totalJobs1 = Jobs::where('user_id', auth()->user()->id)
-                    ->where('deleted_at',null)->get();
-    $totalJobs2 = GeneralMerchandise::where('user_id', auth()->user()->id)
-                    ->where('deleted_at',null)->get();
-
-    $totalJobCum = $totalJobs1->count() + $totalJobs2->count();
-    $statusCompleted = $totalJobs1->where('status','Completed')->count() + $totalJobs2->where('status','Completed')->count();
-    $statusPending = $totalJobs1->where('status','Pending')->count() + $totalJobs2->where('status','Pending')->count();
-
-    return view('dashboard', compact(['recentJobs','recentMerchantJobs','totalJobCum','statusCompleted','statusPending']));
-
-})->name('dashboard');
-
 
 /* protect registered user views from guest/spy */
 Route::middleware(['auth', 'verified'])->group(function () {
-   
+
+    Route::middleware(['auth', 'check_login_user_type'])->group(function () {
+        // user dashboard
+        Route::get('/dashboard', function () {
+
+            /* This is for recent jobs table list */
+            $recentJobs = Jobs::where('user_id', auth()->user()->id)
+                        ->orderBy('id', 'desc')->take(10)->get();
+            
+            /* This is for recent merchandise jobs table list */
+            $recentMerchantJobs = GeneralMerchandise::where('user_id', auth()->user()->id)
+                        ->orderBy('id', 'desc')->take(10)->get();
+
+            /* This is for job count */
+            $totalJobs1 = Jobs::where('user_id', auth()->user()->id)
+                            ->where('deleted_at',null)->get();
+            $totalJobs2 = GeneralMerchandise::where('user_id', auth()->user()->id)
+                            ->where('deleted_at',null)->get();
+
+            $totalJobCum = $totalJobs1->count() + $totalJobs2->count();
+            $statusCompleted = $totalJobs1->where('status','Completed')->count() + $totalJobs2->where('status','Completed')->count();
+            $statusPending = $totalJobs1->where('status','Pending')->count() + $totalJobs2->where('status','Pending')->count();
+
+            return view('dashboard', compact(['recentJobs','recentMerchantJobs','totalJobCum','statusCompleted','statusPending']));
+
+        })->name('dashboard');
+
+    });    
+    
     // accessible only when registration is completed
     Route::middleware(['auth', 'handyman_registration_completed'])->group(function () {
 
         Route::get('/handyman/dashboard', [HandyManController::class, 'index'])->name('handyman.dashboard');
-
     });
 
     // handyman registration step 2 which must be after step 1
@@ -94,6 +97,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/users',[AdminController::class, 'userList'])->name('admin.user-list');
     Route::get('/admin/user/create',[AdminController::class, 'userCreate'])->name('admin.user-create');
     Route::get('/admin/user/search',[AdminController::class, 'userSearch'])->name('admin.user-search');
+    Route::post('/admin/user',[AdminController::class, 'userStore'])->name('admin.user-store');
+    Route::get('/admin/user/view',[AdminController::class, 'userView'])->name('admin.user-view');
     
 
     Route::get('/jobtypes', [JobTypesController::class, 'index'])->name('jobtypes');
@@ -125,5 +130,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/general-merchandise/{id}',[GeneralMerchandiseController::class, 'update'])->name('gmerchandise.update'); 
     Route::delete('/general-merchandise/{id}',[GeneralMerchandiseController::class, 'destroy'])->name('gmerchandise.destroy');
     Route::get('/general-merchandise/show/{id}',[GeneralMerchandiseController::class, 'show'])->name('gmerchandise.show');
+
+    Route::get('/reviews/create',[ReviewsController::class, 'create'])->name('reviews.create');
+    Route::post('/reviews/post',[ReviewsController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews',[ReviewsController::class, 'index'])->name('reviews');
 });
 

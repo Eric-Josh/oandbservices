@@ -77,7 +77,11 @@
                             <tr>
                                 <td><a href="{{ route('handyman-job.show', $handyManJob2s->id) }}">{{ $handyManJob2s->job_title }}</a></td>
                                 <td><a href="{{ route('handyman-job.show', $handyManJob2s->id) }}">{{ $handyManJob2s->amount }}</a></td>
-                                <td><a href="{{ route('handyman-job.show', $handyManJob2s->id) }}">{{ $handyManJob2s->status }}</a></td>
+                                @if($handyManJob2s->status == "Pending")
+                                <td><span class="badge badge-warning">{{ $handyManJob2s->status }}</span></td>
+                                @else
+                                <td><span class="badge badge-success">{{ $handyManJob2s->status }}</span></td>
+                                @endif
                                 <td><a href="{{ route('handyman-job.show', $handyManJob2s->id) }}">{{ $handyManJob2s->time_frame }}</a></td>
                                 @php 
                                     $dateAssigned = new DateTime($handyManJob2s->date_request); 

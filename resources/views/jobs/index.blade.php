@@ -36,7 +36,11 @@
                                 <!-- <th scope="row">{{ $i }}</th> -->
                                 <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->job_title }}</a></td>
                                 <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->amount }}</a></td>
-                                <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->status }}</a></td>
+                                @if($job->status == "Pending")
+                                <td><span class="badge badge-warning">{{ $job->status }}</span></td>
+                                @else
+                                <td><span class="badge badge-success">{{ $job->status }}</span></td>
+                                @endif
                                 <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->time_frame }}</a></td>
                                 <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->created_at->format('j F, Y') }}</a></td>
                                 <td><a href="{{ route('jobs.edit', $job->id) }}">Edit</a></td>

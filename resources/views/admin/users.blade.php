@@ -13,21 +13,21 @@
                     <div class="card bg-info">
                         <div class="card-body text-center">
                             <div class="row">
-                                <div class="col-xs-4"><span class="material-icons box-icon">sync_alt</span></div>
+                                <div class="col-xs-4"><span class="material-icons box-icon">bar_chart</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">TOTAL USERS</p>
-                                    <p class="count-text">{{ $users->count() }} <p>
+                                    <p class="count-text">{{ $usersTotal->count() }} <p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card bg-success ">
+                    <div class="card bg-secondary ">
                         <div class="card-body text-center">
                             <div class="row">
-                                <div class="col-xs-4"><span class="material-icons box-icon">done_all</span></div>
+                                <div class="col-xs-4"><span class="material-icons box-icon">engineering</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">ADMIN </p>
-                                    <p class="count-text"> {{ $users->where('user_type', 1)->count() }} </p>
+                                    <p class="count-text"> {{ $usersTotal->where('user_type', 1)->count() }} </p>
                                 </div>
                             </div>
                         </div>
@@ -35,10 +35,10 @@
                     <div class="card bg-success ">
                         <div class="card-body text-center">
                             <div class="row">
-                                <div class="col-xs-4"><span class="material-icons box-icon">done_all</span></div>
+                                <div class="col-xs-4"><span class="material-icons box-icon">people_alt</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">CUTOMERS </p>
-                                    <p class="count-text"> {{ $users->where('user_type', 2)->count() }} </p>
+                                    <p class="count-text"> {{ $usersTotal->where('user_type', 2)->count() }} </p>
                                 </div>
                             </div>
                         </div>
@@ -46,10 +46,10 @@
                     <div class="card bg-warning">
                         <div class="card-body text-center">
                             <div class="row">
-                                <div class="col-xs-4"><span class="material-icons box-icon">schedule</span></div>
+                                <div class="col-xs-4"><span class="material-icons box-icon">construction</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">HANDYMAN </p>
-                                    <p class="count-text"> {{ $users->where('user_type', 3)->count() }} </p>
+                                    <p class="count-text"> {{ $usersTotal->where('user_type', 3)->count() }} </p>
                                 </div>            
                             </div>        
                         </div>
@@ -92,7 +92,7 @@
                                     <div class="mt-4">
                                         <x-jet-label for="role" value="{{ __('Role') }}" />
                                         <select name="user_type" id="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                            <option value="">All</option>
+                                            <option value="0" selected="selected">All</option>
                                             <option value="1">Admin</option>
                                             <option value="2">Customer</option>
                                             <option value="3">Handyman</option>
@@ -107,35 +107,57 @@
                     </div>
                         
                     <div id="search-result" >
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered ">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Name</th>  
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Role</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($users as $users)
-                                <tr>
-                                    <td><a href="#">{{ $users->name }}</a></td>
-                                    <td><a href="">{{ $users->email }}</a></td>
-                                    <td><a href="">
-                                        @if($users->user_type == 1)
-                                        {{ 'Admin' }}
-                                        @elseif($users->user_type == 2)
-                                        {{ 'Customer' }}
-                                        @else
-                                        {{ 'Handyman'  }}
-                                        @endif
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered ">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Name</th>  
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($users as $user)
+                                    <tr>
+                                        <td><a href="#{{ $user->id }}" class="user-details">{{ $user->name }}</a></td>
+                                        <td><a href="#{{ $user->id }}" class="user-details">{{ $user->email }}</a></td>
+                                        <td><a href="#{{ $user->id }}" class="user-details">
+                                            @if($user->user_type == 1)
+                                            {{ 'Admin' }}
+                                            @elseif($user->user_type == 2)
+                                            {{ 'Customer' }}
+                                            @else
+                                            {{ 'Handyman'  }}
+                                            @endif
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            {{ $users->links() }}
+                        </div>
                     </div>
+
+                    <!-- The Modal -->
+                    <div class="modal fade" id="userModal">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <input type="hidden" class="get-job-id" name="jobid">
+                                    <h4 class="modal-title"></h4>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -149,6 +171,27 @@ $(function(){
 
     $('#filter').click(function(){
         $('#filter-section').toggle();
+    });
+
+    // user view
+    $('.user-details').click(function(){
+
+        let href = $(this).attr('href');
+        xhref = href.split('#');
+
+        $.ajax({
+        url: "{{ url('/admin/user/view') }}",
+            method: 'get',
+            data: {
+                href: xhref[1],
+            },
+            success: function(result){
+                $('.modal-body').html(result);
+
+                // Display Modal
+                $('#userModal').modal('show');
+            }
+        });
     });
 
     $('#search').click(function(){

@@ -83,6 +83,10 @@
                             </x-jet-dropdown-link>
                         </x-slot>
                     </x-jet-dropdown >
+
+                    <x-jet-nav-link href="{{ route('reviews') }}" :active="request()->routeIs(['reviews'])" >
+                        {{ __('Reviews') }}
+                    </x-jet-nav-link>
                 @endif
 
                 @if(auth()->user()->user_type == 3 )

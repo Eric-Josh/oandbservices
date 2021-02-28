@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Jetstream\Jetstream;
+use Laravel\Fortify\Rules\Password;
+
 use App\Models\User;
 use App\Models\Jobs;
 use App\Models\JobTypes;
@@ -122,12 +126,28 @@ class AdminController extends Controller
         $email = $request->email;
         $role = $request->role;
 
-        $userSearch = User::where('name','like','%'.$name.'%')
-                                ->orWhere('email', 'like','%'.$email.'%')
-                                ->orWhere('user_type','like', '%'.$role.'%')
-                                ->paginate(10);
+        if($role == 0){
+            $roles = '%%';
+        }else{
+            $roles = ''.$role;
+        }
+
+        $userSearch = User::where('name','like',''.$name)
+                                ->orWhere('email', 'like',''.$email)
+                                ->orWhere('user_type','like', $roles)
+                                ->orderBy('name','asc')->orderBy('email','asc')->orderBy('user_type','asc')
+                                ->paginate(20);
 
         return view('admin.ajax-user-search', compact('userSearch'));
+    }
+
+    public function userView (Request $request)
+    {
+        $id = $request->href;
+        $user = User::findOrFail($id);
+        
+        return view('admin.user-view', compact('user'));
+    
     }
 
     /**
@@ -177,13 +197,37 @@ class AdminController extends Controller
     public function userList ()
     {
         $users = User::paginate(10);
+        $usersTotal = User::all();
 
-        return view('admin.users', compact('users'));
+        return view('admin.users', compact('users','usersTotal'));
     }
 
     public function userCreate ()
     {
         return view('admin.user-create');
     }
+
+    public function userStore (Request $request)
+    {
+        $request->validate([
+
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', new Password, 'confirmed'],
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+        ]);
+
+        $user = new User ([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
+            'user_type' => '1',
+        ]);
+        $user->save();
+
+        return redirect()->route('admin.user-list')->withStatus('Admin user created successfully!');
+    }
+
+  
 
 }

@@ -37,7 +37,11 @@
                                 <!-- <th scope="row">{{ $i }}</th> -->
                                 <td><a href="{{ route('gmerchandise.show', $generalMerchandises->id) }}"  data-toggle="tooltip" data-placement="bottom" title="View Job">{{ $generalMerchandises->merchandise->merchandise }}</a></td>
                                 <td><a href="{{ route('gmerchandise.show', $generalMerchandises->id) }}">{{ $generalMerchandises->amount }}</a></td>
-                                <td><a href="{{ route('gmerchandise.show', $generalMerchandises->id) }}">{{ $generalMerchandises->status }}</a></td>
+                                @if($generalMerchandises->status == "Pending")
+                                <td><span class="badge badge-warning">{{ $generalMerchandises->status }}</span></td>
+                                @else
+                                <td><span class="badge badge-success">{{ $generalMerchandises->status }}</span></td>
+                                @endif
                                 <td><a href="{{ route('gmerchandise.show', $generalMerchandises->id) }}">{{ $generalMerchandises->time_frame }}</a></td>
                                 <td><a href="{{ route('gmerchandise.show', $generalMerchandises->id) }}">{{ $generalMerchandises->created_at->format('j F, Y') }}</a></td>
                                 <td><a href="{{ route('gmerchandise.edit', $generalMerchandises->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit Job">Edit</a></td>
