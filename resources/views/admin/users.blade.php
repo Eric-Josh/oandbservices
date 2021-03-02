@@ -9,7 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class=" overflow-hidden shadow-xl sm:rounded-lg">
 
+                <div class="container">
                 <div class="card-deck">
+                
                     <div class="card bg-info">
                         <div class="card-body text-center">
                             <div class="row">
@@ -54,6 +56,7 @@
                             </div>        
                         </div>
                     </div>
+                </div>
                 </div>
 
                 <div class="card-body">

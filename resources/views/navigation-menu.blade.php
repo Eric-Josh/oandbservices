@@ -26,117 +26,117 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
 
-                @if(auth()->user()->user_type == 1 )
-                    <x-jet-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')" >
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
-                    
-                    <x-jet-dropdown >
-                        <x-slot name="trigger">
-                            <x-jet-nav-link href="#" :active="request()->routeIs(['admin.job-history','jobs.merchandise-history'])" class=" dropdown-toggle" style="margin-top:18px">
-                                {{ __('Jobs') }}
-                            </x-jet-nav-link>
-                        </x-slot>
+                    @if(auth()->user()->user_type == 1 )
+                        <x-jet-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')" >
+                            {{ __('Dashboard') }}
+                        </x-jet-nav-link>
+                        
+                        <x-jet-dropdown >
+                            <x-slot name="trigger">
+                                <x-jet-nav-link href="#" :active="request()->routeIs(['admin.job-history','jobs.merchandise-history'])" class=" dropdown-toggle" style="margin-top:18px">
+                                    {{ __('Jobs') }}
+                                </x-jet-nav-link>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('admin.job-history') }}">
-                                {{ __('Jobs History') }}
-                            </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('admin.merchandise-history') }}">
-                                {{ __('Merchandise History') }}
-                            </x-jet-dropdown-link>
-                        </x-slot>
-                    </x-jet-dropdown >
+                            <x-slot name="content">
+                                <x-jet-dropdown-link href="{{ route('admin.job-history') }}">
+                                    {{ __('Jobs History') }}
+                                </x-jet-dropdown-link>
+                                <x-jet-dropdown-link href="{{ route('admin.merchandise-history') }}">
+                                    {{ __('Merchandise History') }}
+                                </x-jet-dropdown-link>
+                            </x-slot>
+                        </x-jet-dropdown >
 
-                    <x-jet-dropdown >
-                        <x-slot name="trigger">
-                            <x-jet-nav-link href="#"  :active="request()->routeIs(['admin.user-list','admin.user-create'])" 
-                                class=" dropdown-toggle" style="margin-top:18px">
-                                {{ __('User Management') }}
-                            </x-jet-nav-link>
-                        </x-slot>
+                        <x-jet-dropdown >
+                            <x-slot name="trigger">
+                                <x-jet-nav-link href="#"  :active="request()->routeIs(['admin.user-list','admin.user-create'])" 
+                                    class=" dropdown-toggle" style="margin-top:18px">
+                                    {{ __('User Management') }}
+                                </x-jet-nav-link>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('admin.user-create') }}">
-                                {{ __('New Admin User') }}
-                            </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('admin.user-list') }}">
-                                {{ __('View Users') }}
-                            </x-jet-dropdown-link>
-                        </x-slot>
-                    </x-jet-dropdown >
+                            <x-slot name="content">
+                                <x-jet-dropdown-link href="{{ route('admin.user-create') }}">
+                                    {{ __('New Admin User') }}
+                                </x-jet-dropdown-link>
+                                <x-jet-dropdown-link href="{{ route('admin.user-list') }}">
+                                    {{ __('View Users') }}
+                                </x-jet-dropdown-link>
+                            </x-slot>
+                        </x-jet-dropdown >
 
-                    <x-jet-dropdown >
-                        <x-slot name="trigger">
-                            <x-jet-nav-link href="#" :active="request()->routeIs(['jobtypes','jobtypes.create','jobtypes.edit',
-                                'merchndise','merchandise.create','merchandise.edit'])" class=" dropdown-toggle" style="margin-top:18px">
-                                {{ __('Console Management') }}
-                            </x-jet-nav-link>
-                        </x-slot>
+                        <x-jet-dropdown >
+                            <x-slot name="trigger">
+                                <x-jet-nav-link href="#" :active="request()->routeIs(['jobtypes','jobtypes.create','jobtypes.edit',
+                                    'merchndise','merchandise.create','merchandise.edit'])" class=" dropdown-toggle" style="margin-top:18px">
+                                    {{ __('Console Management') }}
+                                </x-jet-nav-link>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('jobtypes') }}">
-                                {{ __('Jobs Types') }}
-                            </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('merchndise') }}">
-                                {{ __('Merchandise') }}
-                            </x-jet-dropdown-link>
-                        </x-slot>
-                    </x-jet-dropdown >
+                            <x-slot name="content">
+                                <x-jet-dropdown-link href="{{ route('jobtypes') }}">
+                                    {{ __('Jobs Types') }}
+                                </x-jet-dropdown-link>
+                                <x-jet-dropdown-link href="{{ route('merchndise') }}">
+                                    {{ __('Merchandise') }}
+                                </x-jet-dropdown-link>
+                            </x-slot>
+                        </x-jet-dropdown >
 
-                    <x-jet-nav-link href="{{ route('reviews') }}" :active="request()->routeIs(['reviews'])" >
-                        {{ __('Reviews') }}
-                    </x-jet-nav-link>
-                @endif
+                        <x-jet-nav-link href="{{ route('reviews') }}" :active="request()->routeIs(['reviews'])" >
+                            {{ __('Reviews') }}
+                        </x-jet-nav-link>
+                    @endif
 
-                @if(auth()->user()->user_type == 3 )
-                    <x-jet-nav-link href="{{ route('handyman.dashboard') }}" :active="request()->routeIs('handyman.dashboard')" >
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('handyman-job.history') }}" :active="request()->routeIs('handyman-job.history')" >
-                        {{ __('Job History') }}
-                    </x-jet-nav-link>
-                @endif
+                    @if(auth()->user()->user_type == 3 )
+                        <x-jet-nav-link href="{{ route('handyman.dashboard') }}" :active="request()->routeIs('handyman.dashboard')" >
+                            {{ __('Dashboard') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('handyman-job.history') }}" :active="request()->routeIs('handyman-job.history')" >
+                            {{ __('Job History') }}
+                        </x-jet-nav-link>
+                    @endif
 
-                @if(auth()->user()->user_type == 2 )
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
+                    @if(auth()->user()->user_type == 2 )
+                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
+                            {{ __('Dashboard') }}
+                        </x-jet-nav-link>
 
-                    <x-jet-dropdown >
-                        <x-slot name="trigger">
-                            <x-jet-nav-link href="#" :active="request()->routeIs(['jobs','jobs.create'])" class=" dropdown-toggle" style="margin-top:18px">
-                                {{ __('Jobs') }}
-                            </x-jet-nav-link>
-                        </x-slot>
+                        <x-jet-dropdown >
+                            <x-slot name="trigger">
+                                <x-jet-nav-link href="#" :active="request()->routeIs(['jobs','jobs.create'])" class=" dropdown-toggle" style="margin-top:18px">
+                                    {{ __('Jobs') }}
+                                </x-jet-nav-link>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('jobs.create') }}">
-                                    {{ __('Post New Jobs') }}
-                            </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('jobs') }}">
-                                    {{ __('View Job History') }}
-                            </x-jet-dropdown-link>
-                        </x-slot>
-                    </x-jet-dropdown >
+                            <x-slot name="content">
+                                <x-jet-dropdown-link href="{{ route('jobs.create') }}">
+                                        {{ __('Post New Jobs') }}
+                                </x-jet-dropdown-link>
+                                <x-jet-dropdown-link href="{{ route('jobs') }}">
+                                        {{ __('View Job History') }}
+                                </x-jet-dropdown-link>
+                            </x-slot>
+                        </x-jet-dropdown >
 
-                    <x-jet-dropdown >
-                        <x-slot name="trigger">
-                            <x-jet-nav-link href="#" :active="request()->routeIs(['gmerchandise','gmerchandise.create'])" class=" dropdown-toggle" style="margin-top:18px">
-                                {{ __('General Merchandise') }}
-                            </x-jet-nav-link>
-                        </x-slot>
+                        <x-jet-dropdown >
+                            <x-slot name="trigger">
+                                <x-jet-nav-link href="#" :active="request()->routeIs(['gmerchandise','gmerchandise.create'])" class=" dropdown-toggle" style="margin-top:18px">
+                                    {{ __('General Merchandise') }}
+                                </x-jet-nav-link>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('gmerchandise.create') }}">
-                                    {{ __('Post New Request') }}
-                            </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('gmerchandise') }}">
-                                    {{ __('View Job History') }}
-                            </x-jet-dropdown-link>
-                        </x-slot>
-                    </x-jet-dropdown >
-                @endif
+                            <x-slot name="content">
+                                <x-jet-dropdown-link href="{{ route('gmerchandise.create') }}">
+                                        {{ __('Post New Request') }}
+                                </x-jet-dropdown-link>
+                                <x-jet-dropdown-link href="{{ route('gmerchandise') }}">
+                                        {{ __('View Job History') }}
+                                </x-jet-dropdown-link>
+                            </x-slot>
+                        </x-jet-dropdown >
+                    @endif
                 </div>
             </div>
 
@@ -260,12 +260,117 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+
+            @if(auth()->user()->user_type == 2 )
+            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
-            <x-jet-nav-link href="{{ route('jobs') }}" :active="request()->routeIs(['jobs','jobs.create'])">
-                {{ __('Post a Job') }}
+
+            <x-jet-dropdown >
+                <x-slot name="trigger">
+                    <x-jet-responsive-nav-link href="#" :active="request()->routeIs(['jobs','jobs.create'])" class=" dropdown-toggle" style="margin-top:18px">
+                        {{ __('Jobs') }}
+                    </x-jet-responsive-nav-link>
+                </x-slot>
+
+                <x-slot name="content">
+                    <x-jet-dropdown-link href="{{ route('jobs.create') }}">
+                            {{ __('Post New Jobs') }}
+                    </x-jet-dropdown-link>
+                    <x-jet-dropdown-link href="{{ route('jobs') }}">
+                            {{ __('View Job History') }}
+                    </x-jet-dropdown-link>
+                </x-slot>
+            </x-jet-dropdown >
+
+            <x-jet-dropdown >
+                <x-slot name="trigger">
+                    <x-jet-responsive-nav-link href="#" :active="request()->routeIs(['gmerchandise','gmerchandise.create'])" class=" dropdown-toggle" style="margin-top:18px">
+                        {{ __('General Merchandise') }}
+                    </x-jet-responsive-nav-link>
+                </x-slot>
+
+                <x-slot name="content">
+                    <x-jet-dropdown-link href="{{ route('gmerchandise.create') }}">
+                            {{ __('Post New Request') }}
+                    </x-jet-dropdown-link>
+                    <x-jet-dropdown-link href="{{ route('gmerchandise') }}">
+                            {{ __('View Job History') }}
+                    </x-jet-dropdown-link>
+                </x-slot>
+            </x-jet-dropdown >
+            @endif
+            @if(auth()->user()->user_type == 3 )
+                <x-jet-responsive-nav-link href="{{ route('handyman.dashboard') }}" :active="request()->routeIs('handyman.dashboard')" >
+                    {{ __('Dashboard') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('handyman-job.history') }}" :active="request()->routeIs('handyman-job.history')" >
+                    {{ __('Job History') }}
+                </x-jet-responsive-nav-link>
+            @endif
+            @if(auth()->user()->user_type == 1 )
+            <x-jet-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')" >
+                {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+            
+            <x-jet-dropdown >
+                <x-slot name="trigger">
+                    <x-jet-responsive-nav-link href="#" :active="request()->routeIs(['admin.job-history','jobs.merchandise-history'])" class=" dropdown-toggle" style="margin-top:18px">
+                        {{ __('Jobs') }}
+                    </x-jet-responsive-nav-link>
+                </x-slot>
+
+                <x-slot name="content">
+                    <x-jet-dropdown-link href="{{ route('admin.job-history') }}">
+                        {{ __('Jobs History') }}
+                    </x-jet-dropdown-link>
+                    <x-jet-dropdown-link href="{{ route('admin.merchandise-history') }}">
+                        {{ __('Merchandise History') }}
+                    </x-jet-dropdown-link>
+                </x-slot>
+            </x-jet-dropdown >
+
+            <x-jet-dropdown >
+                <x-slot name="trigger">
+                    <x-jet-responsive-nav-link href="#"  :active="request()->routeIs(['admin.user-list','admin.user-create'])" 
+                        class=" dropdown-toggle" style="margin-top:18px">
+                        {{ __('User Management') }}
+                    </x-jet-responsive-nav-link>
+                </x-slot>
+
+                <x-slot name="content">
+                    <x-jet-dropdown-link href="{{ route('admin.user-create') }}">
+                        {{ __('New Admin User') }}
+                    </x-jet-dropdown-link>
+                    <x-jet-dropdown-link href="{{ route('admin.user-list') }}">
+                        {{ __('View Users') }}
+                    </x-jet-dropdown-link>
+                </x-slot>
+            </x-jet-dropdown >
+
+            <x-jet-dropdown >
+                <x-slot name="trigger">
+                    <x-jet-responsive-nav-link href="#" :active="request()->routeIs(['jobtypes','jobtypes.create','jobtypes.edit',
+                        'merchndise','merchandise.create','merchandise.edit'])" class=" dropdown-toggle" style="margin-top:18px">
+                        {{ __('Console Management') }}
+                    </x-jet-responsive-nav-link>
+                </x-slot>
+
+                <x-slot name="content">
+                    <x-jet-dropdown-link href="{{ route('jobtypes') }}">
+                        {{ __('Jobs Types') }}
+                    </x-jet-dropdown-link>
+                    <x-jet-dropdown-link href="{{ route('merchndise') }}">
+                        {{ __('Merchandise') }}
+                    </x-jet-dropdown-link>
+                </x-slot>
+            </x-jet-dropdown >
+
+            <x-jet-responsive-nav-link href="{{ route('reviews') }}" :active="request()->routeIs(['reviews'])" >
+                {{ __('Reviews') }}
+            </x-jet-responsive-nav-link>
+            @endif
+
         </div>
 
         <!-- Responsive Settings Options -->

@@ -96,7 +96,11 @@
                                     <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="location" name="location" required />
                                 </div> 
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class="flex items-center justify-end mt-4">
+                                    <x-jet-button class="ml-4">
+                                        {{ __('submit') }}
+                                    </x-jet-button>
+                                </div>
                             </form>
                         </div>
 

@@ -33,17 +33,17 @@
                         <tbody>
                             @foreach($jobs as $job)
                             <tr>
-                                <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->job_title }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->job_title }}</a></td>
                                 <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->amount }}</a></td>
                                 @if($job->status == "Pending")
                                 <td><span class="badge badge-warning">{{ $job->status }}</span></td>
                                 @else
                                 <td><span class="badge badge-success">{{ $job->status }}</span></td>
                                 @endif
-                                <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->user->name }}</a></td>
-                                <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->time_frame }}</a></td>
-                                <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->created_at->format('j F, Y') }}</a></td>
-                                <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->assigned_to ? $job->assigned->name : 'Not Assigned' }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->user->name }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->time_frame }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->created_at->format('j F, Y') }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->assigned_to ? $job->assigned->name : 'Not Assigned' }}</a></td>
                                 <td>
                                     
                                     <button class="btn btn-outline-warning job-id" data-toggle="modal" data-target="#assignUserView" data-id="{{$job->id}}">
@@ -105,6 +105,24 @@
                     </table>
                     
                     {{ $jobs->links() }}
+                     <!-- The Modal -->
+                     <div class="modal fade" id="jbModal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <!-- <div class="modal-header">
+                                    <h4 class="modal-title"></h4>
+                                </div> -->
+                                <!-- Modal body -->
+                                <div class="modal-body jb-view"></div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -117,7 +135,27 @@ $(function(){
     $('.job-id').click(function(){
 
         var jobId = $(this).data('id');
+        // pass id to hidden input
         $('.get-job-id').attr('value',jobId);
+
+    });
+
+    // job view
+    $('.jobber').click(function(){
+        var jobId = $(this).data('id');
+        $.ajax({
+            url: "{{ url('/admin/job-view') }}",
+            method: 'get',
+            data: {
+                jobId: jobId,
+            },
+            success: function(result){
+                $('.jb-view').html(result);
+
+                // Display Modal
+                $('#jbModal').modal('show');
+            }
+        });
 
     });
 

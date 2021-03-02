@@ -434,7 +434,7 @@
                             <li><a href="{{ route('login') }}" class="py-1 d-block">Post a Job</a></li>
                             <li><a href="{{ route('login') }}" class="py-1 d-block">Login</a></li>
                             <li><a href="{{ route('register') }}" class="py-1 d-block">Sign Up</a></li>
-                            <li><a href="#" class="py-1 d-block">Review</a></li>
+                            <li><a href="{{ route('reviews.create') }}" class="py-1 d-block">Review</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6 col-lg-4 pl-lg-5 mb-4 mb-md-0">

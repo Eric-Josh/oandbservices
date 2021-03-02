@@ -9,6 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class=" overflow-hidden shadow-xl sm:rounded-lg">
                 
+                <div class="container">
                 <div class="card-columns">
                     <div class="card bg-info">
                     <div class="card-body text-center">
@@ -43,6 +44,7 @@
                         </div>        
                     </div>
                     </div>
+                </div>
                 </div>
 
                 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
@@ -89,15 +91,15 @@
                                     <tbody>
                                         @foreach($recentJobs as $recentJob)
                                         <tr>
-                                            <td><a href="{{ route('admin.job-view', $recentJob->id) }}">{{ $recentJob->job_title }}</a></td>
-                                            <td><a href="{{ route('admin.job-view', $recentJob->id) }}">{{ $recentJob->amount }}</a></td>
+                                            <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->job_title }}</a></td>
+                                            <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->amount }}</a></td>
                                             @if($recentJob->status == "Pending")
                                             <td><span class="badge badge-warning">{{ $recentJob->status }}</span></td>
                                             @else
                                             <td><span class="badge badge-success">{{ $recentJob->status }}</span></td>
                                             @endif
-                                            <td><a href="{{ route('admin.job-view', $recentJob->id) }}">{{ $recentJob->user->name }}</a></td>
-                                            <td><a href="{{ route('admin.job-view', $recentJob->id) }}">{{ $recentJob->created_at->format('j F, Y') }}</a></td>
+                                            <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->user->name }}</a></td>
+                                            <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->created_at->format('j F, Y') }}</a></td>
                                             <td>
                                                 <form method="POST" action="{{ route('admin.job-status', $recentJob->id) }}">
                                                     @csrf
@@ -128,15 +130,15 @@
                                     <tbody>
                                         @foreach($recentMerchantJobs as $recentMerchantJob)
                                         <tr>
-                                            <td><a href="{{ route('admin.merchandise-view', $recentMerchantJob->id) }}">{{ $recentMerchantJob->merchandise->merchandise }}</a></td>
-                                            <td><a href="{{ route('admin.merchandise-view', $recentMerchantJob->id) }}">{{ $recentMerchantJob->amount }}</a></td>
+                                            <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->merchandise->merchandise }}</a></td>
+                                            <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->amount }}</a></td>
                                             @if($recentMerchantJob->status == "Pending")
                                             <td><span class="badge badge-warning">{{ $recentMerchantJob->status }}</span></td>
                                             @else
                                             <td><span class="badge badge-success">{{ $recentMerchantJob->status }}</span></td>
                                             @endif
-                                            <td><a href="{{ route('admin.merchandise-view', $recentMerchantJob->id) }}">{{ $recentMerchantJob->user->name }}</a></td>
-                                            <td><a href="{{ route('admin.merchandise-view', $recentMerchantJob->id) }}">{{ $recentMerchantJob->created_at->format('j F, Y') }}</a></td>
+                                            <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->user->name }}</a></td>
+                                            <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->created_at->format('j F, Y') }}</a></td>
                                             <td>
                                                 <form method="POST" action="{{ route('admin.merchandise-status', $recentMerchantJob->id) }}">
                                                 @csrf
@@ -153,9 +155,90 @@
                     </div>
                     
                 </div>
+                <!-- The Modal -->
+                <div class="modal fade" id="jbModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <!-- <div class="modal-header">
+                                <h4 class="modal-title"></h4>
+                            </div> -->
+                            <!-- Modal body -->
+                            <div class="modal-body jb-view"></div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- The Modal -->
+                 <div class="modal fade" id="gmModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body gm-view"></div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+<script>
+    $(function(){
+
+        // job view
+        $('.jobber').click(function(){
+            var jobId = $(this).data('id');
+            $.ajax({
+                url: "{{ url('/admin/job-view') }}",
+                method: 'get',
+                data: {
+                    jobId: jobId,
+                },
+                success: function(result){
+                    $('.jb-view').html(result);
+
+                    // Display Modal
+                    $('#jbModal').modal('show');
+                }
+            });
+        });
+
+        // pass id to modal
+        $('.gm-jobid').click(function(){
+
+            var gmJobId = $(this).data('id');
+
+            $.ajax({
+            url: "{{ url('/admin/merchandise-view') }}",
+                method: 'get',
+                data: {
+                    gmJobId: gmJobId,
+                },
+                success: function(result){
+                    $('.gm-view').html(result);
+
+                    // Display Modal
+                    $('#gmModal').modal('show');
+                }
+            });
+        });
+
+    });
+
+</script>
 </x-app-layout>
 
 <!-- <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"> -->

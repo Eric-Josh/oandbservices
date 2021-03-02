@@ -48,16 +48,18 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function jobView($id)
+    public function jobView(Request $request)
     {
+        $id = $request->jobId;
         $jobs = Jobs::findOrFail($id);
         $jobTypes = JobTypes::orderBy('name', 'asc')->get();
 
         return view('admin.jobs-show', compact('jobs'))->with('jobTypes', $jobTypes);
     }
 
-    public function merchandiseView($id)
+    public function merchandiseView(Request $request)
     {
+        $id = $request->gmJobId;
         $merchandise = Merchandise::orderBy('merchandise', 'asc')->get();
         $generalMerchandise = GeneralMerchandise::find($id);
 

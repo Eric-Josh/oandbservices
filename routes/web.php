@@ -44,7 +44,7 @@ Route::post('/handyman-register', [HandyManController::class, 'register'])->name
 /* protect registered user views from guest/spy */
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::middleware(['auth', 'check_login_user_type'])->group(function () {
+    // Route::middleware(['auth', 'check_login_user_type'])->group(function () {
         // user dashboard
         Route::get('/dashboard', function () {
 
@@ -70,7 +70,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         })->name('dashboard');
 
-    });    
+    // });    
     
     // accessible only when registration is completed
     Route::middleware(['auth', 'handyman_registration_completed'])->group(function () {
@@ -86,8 +86,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // admin routes
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/job-view/{id}', [AdminController::class, 'jobView'])->name('admin.job-view');
-    Route::get('/admin/merchandise-view/{id}', [AdminController::class, 'merchandiseView'])->name('admin.merchandise-view');
+    Route::get('/admin/job-view', [AdminController::class, 'jobView'])->name('admin.job-view');
+    Route::get('/admin/merchandise-view', [AdminController::class, 'merchandiseView'])->name('admin.merchandise-view');
     Route::get('/admin/job-history', [AdminController::class, 'jobHistory'])->name('admin.job-history');
     Route::get('/admin/merchandise-history', [AdminController::class, 'merchandiseHistory'])->name('admin.merchandise-history');
     Route::put('/admin/js/{id}',[AdminController::class, 'jobStatus'])->name('admin.job-status');
@@ -131,7 +131,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/general-merchandise/{id}',[GeneralMerchandiseController::class, 'destroy'])->name('gmerchandise.destroy');
     Route::get('/general-merchandise/show/{id}',[GeneralMerchandiseController::class, 'show'])->name('gmerchandise.show');
 
-    Route::get('/reviews/create',[ReviewsController::class, 'create'])->name('reviews.create');
+    Route::get('/reviews/new',[ReviewsController::class, 'create'])->name('reviews.create');
     Route::post('/reviews/post',[ReviewsController::class, 'store'])->name('reviews.store');
     Route::get('/reviews',[ReviewsController::class, 'index'])->name('reviews');
 });

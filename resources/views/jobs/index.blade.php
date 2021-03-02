@@ -25,7 +25,7 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Start Time</th>
                                 <th scope="col">Request Date</th>
-                                <th scope="col">Edit Job</th>
+                                <!-- <th scope="col">Edit Job</th> -->
                                 <!-- <th scope="col">Delete</th> -->
                             </tr>
                         </thead>
@@ -34,16 +34,16 @@
                             @foreach($jobs as $job)
                             <tr>
                                 <!-- <th scope="row">{{ $i }}</th> -->
-                                <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->job_title }}</a></td>
-                                <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->amount }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->job_title }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->amount }}</a></td>
                                 @if($job->status == "Pending")
                                 <td><span class="badge badge-warning">{{ $job->status }}</span></td>
                                 @else
                                 <td><span class="badge badge-success">{{ $job->status }}</span></td>
                                 @endif
-                                <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->time_frame }}</a></td>
-                                <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->created_at->format('j F, Y') }}</a></td>
-                                <td><a href="{{ route('jobs.edit', $job->id) }}">Edit</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->time_frame }}</a></td>
+                                <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->created_at->format('j F, Y') }}</a></td>
+                                <!-- <td><a href="{{ route('jobs.edit', $job->id) }}">Edit</a></td> -->
                                 <!-- <td>
                                     <form method="POST" action="{{ route('jobs.destroy', $job->id) }}">
                                     @csrf
@@ -59,7 +59,50 @@
                     {{ $jobs->links() }}
                 </div>
             </div>
+             <!-- The Modal -->
+             <div class="modal fade" id="jbModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <!-- <div class="modal-header">
+                            <h4 class="modal-title"></h4>
+                        </div> -->
+                        <!-- Modal body -->
+                        <div class="modal-body jb-view"></div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
+
+<script>
+$(function(){
+
+    // job view
+    $('.jobber').click(function(){
+        var jobId = $(this).data('id');
+        $.ajax({
+            url: "{{ url('/admin/job-view') }}",
+            method: 'get',
+            data: {
+                jobId: jobId,
+            },
+            success: function(result){
+                $('.jb-view').html(result);
+
+                // Display Modal
+                $('#jbModal').modal('show');
+            }
+        });
+
+    });
+
+});
+</script>
 </x-app-layout>

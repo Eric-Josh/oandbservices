@@ -50,8 +50,8 @@ label.star:before {
                 <div class="card-columns">
                     @php $i=0; @endphp
                     @foreach($reviews as $review)
-                        <div class="card bg-info ">
-                            <div class="card-body" style="color:#ffffff; font-size: 15px;">
+                        <div class="card " style="color:#000000; font-size: 15px;">
+                            <div class="card-body" >
                                 <h4 class="card-title"><b>{{ $review->user->name }}</b><br>{{ $review->created_at->format('d/m/Y') }}</h4>
                                 <p>
                                 <div class="stars" >

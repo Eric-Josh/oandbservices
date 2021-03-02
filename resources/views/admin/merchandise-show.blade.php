@@ -1,56 +1,50 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a  href="{{ route('admin.merchandise-history') }}" data-toggle="tooltip" data-placement="bottom" title="View History">{{ __('Merchandise ') }} </a>
-            {{ __(' - '.$generalMerchandise->merchandise->merchandise) }} 
-  
-        </h2>
-    </x-slot>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Job Title</th> 
+                <th>{{ $generalMerchandise->merchandise->merchandise }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Job Description</b></td>
+                <td>{{ $generalMerchandise->description }}</td>
+            </tr>
+            <tr>
+                <td><b>Requested Start TIme</b></td>
+                <td> {{ $generalMerchandise->time_frame }} </td>
+            </tr>
+            <tr>
+                <td><b>Budget</b></td>
+                <td>&#163 {{ $generalMerchandise->amount }}</td>
+            </tr>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            <div class=" overflow-hidden shadow-xl sm:rounded-lg">
+            <tr>
+                <td><b>Location</b></td>
+                <td> {{ $generalMerchandise->location }}</td>
+            </tr>
+            <tr>
+                <td><b>Requested By</b></td>
+                <td> {{ $generalMerchandise->user->name }}</td>
+            </tr>
 
-                <div class="container" style="padding-left: 20px">
-                    
-                    <div class="row">
-                        <div class="card-body "> 
-                            <label for="generalMerchandise" class="labels">Job Description: </label><br> {{ $generalMerchandise->description }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="card-body "> 
-                            <label for="generalMerchandise" class="labels">Requested Start TIme: </label><br> {{ $generalMerchandise->time_frame }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="card-body "> 
-                            <label for="generalMerchandise" class="labels">Budget: </label><br> {{ $generalMerchandise->amount }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="card-body "> 
-                            <label for="generalMerchandise" class="labels">Phone Number: </label><br> {{ $generalMerchandise->phone }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="card-body "> 
-                            <label for="generalMerchandise" class="labels">Location: </label><br> {{ $generalMerchandise->location }}
-                        </div>
-                    </div>
-
-
-                </div>
-
-            </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
-        });
-    </script>
-</x-app-layout>
+            <tr>
+                <td><b>Phone Number</b></td>
+                <td> {{ $generalMerchandise->phone }}</td>
+            </tr>
+            <tr>
+                <td><b>Request Date</b></td>
+                <td> {{ $generalMerchandise->created_at->format('j F, Y') }}</td>
+            </tr>
+            <tr>
+                <td><b>Status</b></td>
+                @if($generalMerchandise->status == "Pending")
+                <td><span class="badge badge-warning">{{ $generalMerchandise->status }}</span></td>
+                @else
+                <td><span class="badge badge-success">{{ $generalMerchandise->status }}</span></td>
+                @endif
+            </tr>
+        </tbody>
+    </table>
+</div>

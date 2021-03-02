@@ -43,7 +43,6 @@
                             
 
                             <div class="flex items-center justify-end mt-4">
-
                                 <x-jet-button class="ml-4">
                                     {{ __('Register') }}
                                 </x-jet-button>
