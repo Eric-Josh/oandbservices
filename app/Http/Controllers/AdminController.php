@@ -92,8 +92,14 @@ class AdminController extends Controller
     public function jobStatus(Request $request, $id)
     {
         $status = Jobs::findOrFail($id);
-        $status->status = 'Completed';
-        $status->date_completed = date('Y-m-d');
+        $status->status = $request->status;
+
+        if ($status->status == 'Completed'){
+            $status->date_completed = date('Y-m-d H:m:s');
+        }else{
+            $status->date_completed =NULL;
+        }
+
         $status->save();
 
         return redirect()->route('admin.job-history');
@@ -102,7 +108,7 @@ class AdminController extends Controller
     public function merchandiseStatus(Request $request, $id)
     {
         $status = GeneralMerchandise::findOrFail($id);
-        $status->status = 'Completed';
+        $status->status = $request->gmstatus;
         $status->save();
 
         return redirect()->route('admin.merchandise-history');
@@ -163,6 +169,8 @@ class AdminController extends Controller
     {
         $assignJob = Jobs::findOrFail($id);
         $assignJob->assigned_to = $request->input('assign');
+        $assignJob->date_assigned = date('Y-m-d H:m:s');
+        $assignJob->date_completed = NULL;
 
         $getHandymanUser = User::where('id', $assignJob->assigned_to)->select('name', 'email')->first();
         $hMail = $getHandymanUser->email;

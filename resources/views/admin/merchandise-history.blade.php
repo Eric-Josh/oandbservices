@@ -30,15 +30,15 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="gm-tb">
                             @foreach($generalMerchandise as $generalMerchandises)
-                            <tr>
+                            <tr data-id="{{$generalMerchandises->id}}">
                                 <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}">{{ $generalMerchandises->merchandise->merchandise }}</a></td>
                                 <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}">{{ $generalMerchandises->amount }}</a></td>
                                 @if($generalMerchandises->status == "Pending")
                                 <td><span class="badge badge-warning">{{ $generalMerchandises->status }}</span></td>
                                 @else
-                                <td><span class="badge badge-success">{{ $generalMerchandises->status }}</span></td>
+                                <td><span class="badge badge-success" id="gmstatus{{$generalMerchandises->id}}" >{{ $generalMerchandises->status }}</span></td>
                                 @endif
                                 <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}">{{ $generalMerchandises->user->name }}</a></td>
                                 <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}">{{ $generalMerchandises->time_frame }}</a></td>
@@ -51,7 +51,8 @@
                                     <form method="POST" action="{{ route('admin.merchandise-status', $generalMerchandises->id) }}">
                                     @csrf
                                     @method('put')
-                                    <button onclick="return confirm('Are you sure the job is completed?')" class="btn btn-outline-success">Mark Completed</button>
+                                    <input type="hidden" id="gmmain-status{{$generalMerchandises->id}}" name="gmstatus">
+                                    <button onclick="return confirm('Are you sure ?')" id="gm-btn{{$generalMerchandises->id}}" class="btn btn-outline-success">Mark Completed</button>
                                     </form>
                                 </td>
                             </tr>
@@ -83,30 +84,49 @@
         </div>
     </div>
 
-    <script>
-        $(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
+<script>
+$(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
 
-            // pass id to modal
-            $('.gm-jobid').click(function(){
+     // button changes
+    var arr=[];
 
-                var gmJobId = $(this).data('id');
+    $('#gm-tb tr').each( function (i, tr) {
+        arr.push($(tr).data('id'));
+    });
+    // console.log(arr);
+    for (var i=0; i<arr.length; i++){
 
-                $.ajax({
-                url: "{{ url('/admin/merchandise-view') }}",
-                    method: 'get',
-                    data: {
-                        gmJobId: gmJobId,
-                    },
-                    success: function(result){
-                        $('.modal-body').html(result);
+        if ( $('#gmstatus'+arr[i]).text() === 'Completed' )
+        {
+            $('#gm-btn'+arr[i]).text('Mark Pending');
+            $('#gm-btn'+arr[i]).removeClass( "btn-outline-success" ).addClass( "btn-outline-warning" );
+            $('#gmmain-status'+arr[i]).val('Pending');
+        }else{
+            $('#gmmain-status'+arr[i]).val('Completed');
+        }
+    }  
 
-                        // Display Modal
-                        $('#gmModal').modal('show');
-                    }
-                });
-            });
+    // pass id to modal
+    $('.gm-jobid').click(function(){
 
+        var gmJobId = $(this).data('id');
+
+        $.ajax({
+        url: "{{ url('/admin/merchandise-view') }}",
+            method: 'get',
+            data: {
+                gmJobId: gmJobId,
+            },
+            success: function(result){
+                $('.modal-body').html(result);
+
+                // Display Modal
+                $('#gmModal').modal('show');
+            }
         });
-    </script>
+    });
+
+});
+</script>
 </x-app-layout>

@@ -27,10 +27,12 @@ class Jobs extends Model
         'photo',
         'location',
         'reference_id',
-        'date_requested',
-        'date_completed'
+        'date_completed',
+        'date_assigned',
 
     ];
+
+    // protected $dates = ['date_completed','date_assigned'];
 
     public function jobTypes()
     {

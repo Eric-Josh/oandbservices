@@ -85,12 +85,16 @@
                                 <td><span class="badge badge-success">{{ $handyManJob2s->status }}</span></td>
                                 @endif
                                 <td><a href="#" class="jobber" data-id="{{$handyManJob2s->id}}">{{ $handyManJob2s->time_frame }}</a></td>
-                                @php 
-                                    $dateAssigned = new DateTime($handyManJob2s->date_request); 
-                                    $dateCompleted = new DateTime($handyManJob2s->date_completed);
-                                @endphp
-                                <td><a href="#" class="jobber" data-id="{{$handyManJob2s->id}}">{{ $dateAssigned->format('j F, Y') }}</a></td>
-                                <td><a href="#" class="jobber" data-id="{{$handyManJob2s->id}}">{{ $dateCompleted->format('j F, Y') }}</a></td>
+                               
+                                <td><a href="#" class="jobber" data-id="{{$handyManJob2s->id}}">
+                                    {{ Carbon\Carbon::parse($handyManJob2s->date_assigned)->format('j F, Y') }}
+                                    </a>
+                                </td>
+                                <td><a href="#" class="jobber" data-id="{{$handyManJob2s->id}}">
+                                @if($handyManJob2s->date_completed)
+                                    {{ Carbon\Carbon::parse($handyManJob2s->date_completed)->format('j F, Y') }}
+                                @endif
+                                </a></td>
                             </tr>
                             @endforeach
                             </tbody>

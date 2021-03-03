@@ -109,9 +109,6 @@
                                     </div>
                                 </div>
 
-                                
-                                
-
                                 <div class="form-group">
                                     <label for="photo" class="labels">Add a photo </label>
                                     <div class="input-group">
@@ -123,6 +120,7 @@
                                     </div>
                                     <div class="gallery" id="gallery"></div>
                                 </div> 
+                                
                                 <div class="flex items-center justify-end mt-4">
                                     <x-jet-button class="ml-4">
                                         {{ __('Submit') }}

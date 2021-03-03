@@ -32,6 +32,7 @@ class HandyManUser extends Authenticatable
         'job_type_id',
         'address',
         'user_type',
+        'work_proof',
     ];
 
     /**

@@ -7,7 +7,6 @@
         <h4><b>{{ $userDetails }}</b></h4>
         <ul>
             <li>Client Name: {{ $name }}</li>
-            <li>Email: {{ $email }}</li>
             <li>Phone: {{ $phone }}</li>
             <li>Location: {{ $location }}</li>
             <li>Job Title: {{ $jobtitle }}</li>

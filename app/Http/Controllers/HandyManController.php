@@ -80,12 +80,23 @@ class HandyManController extends Controller
         $request->validate([
             'phone' => 'required|numeric|digits:10',
             'profession' => 'required|numeric',
-            'address' => 'required'
+            'address' => 'required',
         ]);
+
+        $workProof=array();
+        if($request->file('file')){
+            foreach($request->file('file') as $image)
+            {
+                $new_name = rand() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('work-proof'), $new_name);
+                $workProof[] = $new_name;
+            }
+        }
 
         $handyManRegUpdate->phone1 = $request->input('phone');
         $handyManRegUpdate->job_type_id = $request->input('profession');
         $handyManRegUpdate->address = $request->input('address');
+        $handyManRegUpdate->work_proof = implode("|",$workProof);
         $handyManRegUpdate->save();
 
         return redirect()->route('handyman.dashboard');

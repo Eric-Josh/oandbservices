@@ -41,6 +41,20 @@
                 <td>{{ $user->address }}</td>
             </tr>
             @endif
+            @if($user->work_proof)
+            <tr>
+                <td><b>Proof of work</b></td>
+                <td>
+                @foreach(explode('|', $user->work_proof) as $photo)
+                <div class="card-body "> 
+                    <a href="/work-proof/{{ $photo }}" data-lightbox="example-set" class="example-image-link">
+                    <img src="/work-proof/{{ $photo }}" id="avail-img" style="width:130px;height:100px" class="example-image img-thumbnail mx-auto d-block" > 
+                    </a>
+                </div>
+                @endforeach
+                </td>
+            </tr>
+            @endif
         </tbody>
     </table>
 </div>

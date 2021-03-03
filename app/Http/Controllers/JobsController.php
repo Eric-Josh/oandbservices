@@ -90,8 +90,6 @@ class JobsController extends Controller
         $postJob->amount = $request->get('amount');
         $postJob->status = 'Pending';
         $postJob->user_id = auth()->user()->id;
-        $postJob->date_requested = date('Y-m-d H:m:s');
-        $postJob->date_completed = '';
         $postJob->reference_id = rand().date('Ymd');
         $postJob->photo = implode("|",$jobImage);
         $postJob->location = $request->get('location');

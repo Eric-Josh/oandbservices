@@ -88,15 +88,15 @@
 
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="job-tb">
                                         @foreach($recentJobs as $recentJob)
-                                        <tr>
+                                        <tr data-id="{{$recentJob->id}}">
                                             <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->job_title }}</a></td>
                                             <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->amount }}</a></td>
                                             @if($recentJob->status == "Pending")
-                                            <td><span class="badge badge-warning">{{ $recentJob->status }}</span></td>
+                                            <td><span class="badge badge-warning " >{{$recentJob->status}}</span></td>
                                             @else
-                                            <td><span class="badge badge-success">{{ $recentJob->status }}</span></td>
+                                            <td><span class="badge badge-success job-status" id="status{{$recentJob->id}}" >{{$recentJob->status}}</span></td>
                                             @endif
                                             <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->user->name }}</a></td>
                                             <td><a href="#" class="jobber" data-id="{{$recentJob->id}}">{{ $recentJob->created_at->format('j F, Y') }}</a></td>
@@ -104,10 +104,12 @@
                                                 <form method="POST" action="{{ route('admin.job-status', $recentJob->id) }}">
                                                     @csrf
                                                     @method('put')
-                                                    <button onclick="return confirm('Are you sure the job is completed?')" class="btn btn-outline-success">Mark Completed</button>
+                                                    <input type="hidden" id="main-status{{$recentJob->id}}" name="status">
+                                                    <button onclick="return confirm('Are you sure?')" id="job-btn{{$recentJob->id}}" class="btn btn-outline-success">Mark Completed</button>
                                                 </form>
                                             </td>
                                         </tr>
+                                      
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -127,15 +129,15 @@
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="gm-tb">
                                         @foreach($recentMerchantJobs as $recentMerchantJob)
-                                        <tr>
+                                        <tr data-id="{{$recentMerchantJob->id}}">
                                             <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->merchandise->merchandise }}</a></td>
                                             <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->amount }}</a></td>
                                             @if($recentMerchantJob->status == "Pending")
                                             <td><span class="badge badge-warning">{{ $recentMerchantJob->status }}</span></td>
                                             @else
-                                            <td><span class="badge badge-success">{{ $recentMerchantJob->status }}</span></td>
+                                            <td><span class="badge badge-success" id="gmstatus{{$recentMerchantJob->id}}">{{ $recentMerchantJob->status }}</span></td>
                                             @endif
                                             <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->user->name }}</a></td>
                                             <td><a href="#" class="gm-jobid"  data-id="{{ $recentMerchantJob->id }}">{{ $recentMerchantJob->created_at->format('j F, Y') }}</a></td>
@@ -143,7 +145,8 @@
                                                 <form method="POST" action="{{ route('admin.merchandise-status', $recentMerchantJob->id) }}">
                                                 @csrf
                                                 @method('put')
-                                                <button onclick="return confirm('Are you sure the job is completed?')" class="btn btn-outline-success">Mark Completed</button>
+                                                <input type="hidden" id="gmmain-status{{$recentMerchantJob->id}}" name="gmstatus">
+                                                <button onclick="return confirm('Are you sure ?')" id="gm-btn{{$recentMerchantJob->id}}" class="btn btn-outline-success">Mark Completed</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -196,52 +199,85 @@
     </div>
 
 <script>
-    $(function(){
+$(function(){
+        
+    // button changes
+    var arr=[];
+    var gmarr=[];
 
-        // job view
-        $('.jobber').click(function(){
-            var jobId = $(this).data('id');
-            $.ajax({
-                url: "{{ url('/admin/job-view') }}",
-                method: 'get',
-                data: {
-                    jobId: jobId,
-                },
-                success: function(result){
-                    $('.jb-view').html(result);
-
-                    // Display Modal
-                    $('#jbModal').modal('show');
-                }
-            });
-        });
-
-        // pass id to modal
-        $('.gm-jobid').click(function(){
-
-            var gmJobId = $(this).data('id');
-
-            $.ajax({
-            url: "{{ url('/admin/merchandise-view') }}",
-                method: 'get',
-                data: {
-                    gmJobId: gmJobId,
-                },
-                success: function(result){
-                    $('.gm-view').html(result);
-
-                    // Display Modal
-                    $('#gmModal').modal('show');
-                }
-            });
-        });
-
+    $('#job-tb tr').each( function (i, tr) {
+        arr.push($(tr).data('id'));
     });
+    // console.log(arr);
+    for (var i=0; i<arr.length; i++){
+
+        if ( $('#status'+arr[i]).text() === 'Completed' )
+        {
+            $('#job-btn'+arr[i]).text('Mark Pending');
+            $('#job-btn'+arr[i]).removeClass( "btn-outline-success" ).addClass( "btn-outline-warning" );
+            $('#main-status'+arr[i]).val('Pending');
+        }else{
+            $('#main-status'+arr[i]).val('Completed');
+        }
+    }
+
+
+    $('#gm-tb tr').each( function (i, tr) {
+        gmarr.push($(tr).data('id'));
+    });
+    // console.log(arr);
+    for (var i=0; i<gmarr.length; i++){
+
+        if ( $('#gmstatus'+gmarr[i]).text() === 'Completed' )
+        {
+            $('#gm-btn'+gmarr[i]).text('Mark Pending');
+            $('#gm-btn'+gmarr[i]).removeClass( "btn-outline-success" ).addClass( "btn-outline-warning" );
+            $('#gmmain-status'+gmarr[i]).val('Pending');
+        }else{
+            $('#gmmain-status'+gmarr[i]).val('Completed');
+        }
+    }
+
+
+    // job view
+    $('.jobber').click(function(){
+        var jobId = $(this).data('id');
+        $.ajax({
+            url: "{{ url('/admin/job-view') }}",
+            method: 'get',
+            data: {
+                jobId: jobId,
+            },
+            success: function(result){
+                $('.jb-view').html(result);
+
+                // Display Modal
+                $('#jbModal').modal('show');
+            }
+        });
+    });
+
+    // pass id to modal
+    $('.gm-jobid').click(function(){
+
+        var gmJobId = $(this).data('id');
+
+        $.ajax({
+        url: "{{ url('/admin/merchandise-view') }}",
+            method: 'get',
+            data: {
+                gmJobId: gmJobId,
+            },
+            success: function(result){
+                $('.gm-view').html(result);
+
+                // Display Modal
+                $('#gmModal').modal('show');
+            }
+        });
+    });
+
+});
 
 </script>
 </x-app-layout>
-
-<!-- <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"> -->
-<!-- <div class=" overflow-hidden shadow-xl sm:rounded-lg">
-    <x-jet-welcome />
-</div> -->

@@ -30,15 +30,15 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="job-tb">
                             @foreach($jobs as $job)
-                            <tr>
+                            <tr data-id="{{$job->id}}">
                                 <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->job_title }}</a></td>
                                 <td><a href="{{ route('admin.job-view', $job->id) }}">{{ $job->amount }}</a></td>
                                 @if($job->status == "Pending")
                                 <td><span class="badge badge-warning">{{ $job->status }}</span></td>
                                 @else
-                                <td><span class="badge badge-success">{{ $job->status }}</span></td>
+                                <td><span class="badge badge-success" id="status{{$job->id}}" >{{ $job->status }}</span></td>
                                 @endif
                                 <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->user->name }}</a></td>
                                 <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->time_frame }}</a></td>
@@ -46,7 +46,7 @@
                                 <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->assigned_to ? $job->assigned->name : 'Not Assigned' }}</a></td>
                                 <td>
                                     
-                                    <button class="btn btn-outline-warning job-id" data-toggle="modal" data-target="#assignUserView" data-id="{{$job->id}}">
+                                    <button class="btn btn-outline-info job-id" id="assign{{$job->id}}" data-toggle="modal" data-target="#assignUserView" data-id="{{$job->id}}">
                                         Assign Job
                                     </button>
                                 </td>
@@ -54,7 +54,8 @@
                                     <form method="POST" action="{{ route('admin.job-status', $job->id) }}">
                                         @csrf
                                         @method('put')
-                                        <button onclick="return confirm('Are you sure the job is completed?')" class="btn btn-outline-success">Mark Completed</button>
+                                        <input type="hidden" id="main-status{{$job->id}}" name="status">
+                                        <button onclick="return confirm('Are you sure ?')"  id="job-btn{{$job->id}}" class="btn btn-outline-success">Mark Completed</button>
                                     </form>
                                 </td>
                             </tr>
@@ -131,6 +132,28 @@
 
 <script>
 $(function(){
+
+    // button changes
+    var arr=[];
+
+    $('#job-tb tr').each( function (i, tr) {
+        arr.push($(tr).data('id'));
+    });
+    // console.log(arr);
+    for (var i=0; i<arr.length; i++){
+
+        if ( $('#status'+arr[i]).text() === 'Completed' )
+        {
+            $('#job-btn'+arr[i]).text('Mark Pending');
+            $('#job-btn'+arr[i]).removeClass( "btn-outline-success" ).addClass( "btn-outline-warning" );
+            $('#main-status'+arr[i]).val('Pending');
+
+            $('#assign'+arr[i]).attr('disabled','disabled');
+        }else{
+            $('#main-status'+arr[i]).val('Completed');
+        }
+    }
+
     // pass id to modal
     $('.job-id').click(function(){
 
