@@ -53,7 +53,6 @@
                                 <img src="/job-images/{{ $photo }}" id="avail-img" class="example-image img-thumbnail mx-auto d-block" > 
                                 </a>
                             </div>
-                                
                             @endforeach
                         @endif
                         

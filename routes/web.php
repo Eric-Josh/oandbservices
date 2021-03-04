@@ -10,10 +10,13 @@ use App\Http\Controllers\GeneralMerchandiseController;
 use App\Http\Controllers\HandyManController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\BasicUserController;
 
 use App\Models\Jobs;
 use App\Models\GeneralMerchandise;
 use App\Models\User;
+
+use App\Mail\JobAssignHandymanNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,30 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::middleware(['auth', 'check_login_user_type'])->group(function () {
         // user dashboard
-        Route::get('/dashboard', function () {
-
-            /* This is for recent jobs table list */
-            $recentJobs = Jobs::where('user_id', auth()->user()->id)
-                        ->orderBy('id', 'desc')->take(10)->get();
-            
-            /* This is for recent merchandise jobs table list */
-            $recentMerchantJobs = GeneralMerchandise::where('user_id', auth()->user()->id)
-                        ->orderBy('id', 'desc')->take(10)->get();
-
-            /* This is for job count */
-            $totalJobs1 = Jobs::where('user_id', auth()->user()->id)
-                            ->where('deleted_at',null)->get();
-            $totalJobs2 = GeneralMerchandise::where('user_id', auth()->user()->id)
-                            ->where('deleted_at',null)->get();
-
-            $totalJobCum = $totalJobs1->count() + $totalJobs2->count();
-            $statusCompleted = $totalJobs1->where('status','Completed')->count() + $totalJobs2->where('status','Completed')->count();
-            $statusPending = $totalJobs1->where('status','Pending')->count() + $totalJobs2->where('status','Pending')->count();
-
-            return view('dashboard', compact(['recentJobs','recentMerchantJobs','totalJobCum','statusCompleted','statusPending']));
-
-        })->name('dashboard');
-
+        Route::get('/customer/dashboard',  [BasicUserController::class, 'dashboard'])->name('customer-dashboard');
     // });    
     
     // accessible only when registration is completed
@@ -100,7 +80,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/user',[AdminController::class, 'userStore'])->name('admin.user-store');
     Route::get('/admin/user/view',[AdminController::class, 'userView'])->name('admin.user-view');
     
-
     Route::get('/jobtypes', [JobTypesController::class, 'index'])->name('jobtypes');
     Route::get('/jobtypes/create', [JobTypesController::class, 'create'])->name('jobtypes.create');
     Route::post('jobtypes', [JobTypesController::class, 'store'])->name('jobtypes.store');
@@ -113,7 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('jobs', [JobsController::class, 'store'])->name('jobs.store');
     Route::get('/jobs/edit/{id}',[JobsController::class, 'edit'])->name('jobs.edit');
     Route::get('jobs/show/{id}', [JobsController::class, 'show'])->name('jobs.show');
-    Route::put('/jobs/{id}',[JobsController::class, 'update'])->name('jobs.update'); 
+    Route::put('/jobs/{id}',[JobsController::class, 'update'])->name('jobs.update');  
     Route::delete('/jobs/{id}',[JobsController::class, 'destroy'])->name('jobs.destroy');
 
     Route::get('/merchandise', [MerchandiseController::class, 'index'])->name('merchndise');
@@ -134,5 +113,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reviews/new',[ReviewsController::class, 'create'])->name('reviews.create');
     Route::post('/reviews/post',[ReviewsController::class, 'store'])->name('reviews.store');
     Route::get('/reviews',[ReviewsController::class, 'index'])->name('reviews');
+
+    Route::get('/email', function(){
+        
+        return new JobAssignHandymanNotification();
+    });
+    
 });
 

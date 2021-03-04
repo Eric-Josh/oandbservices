@@ -16,7 +16,7 @@
                     </a>
                 @endif
                 @if(auth()->user()->user_type == 2 )
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('customer-dashboard') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 @endif
@@ -99,7 +99,7 @@
                     @endif
 
                     @if(auth()->user()->user_type == 2 )
-                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
+                        <x-jet-nav-link href="{{ route('customer-dashboard') }}" :active="request()->routeIs('customer-dashboard')" >
                             {{ __('Dashboard') }}
                         </x-jet-nav-link>
 
@@ -262,7 +262,7 @@
         <div class="pt-2 pb-3 space-y-1">
 
             @if(auth()->user()->user_type == 2 )
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
+            <x-jet-responsive-nav-link href="{{ route('customer-dashboard') }}" :active="request()->routeIs('customer-dashboard')" >
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
 

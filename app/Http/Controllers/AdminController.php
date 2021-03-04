@@ -14,6 +14,8 @@ use App\Models\GeneralMerchandise;
 use App\Models\Merchandise;
 
 use Mail;
+use App\Mail\JobAssignUserNotification;
+use App\Mail\JobAssignHandymanNotification;
 
 class AdminController extends Controller
 {
@@ -96,6 +98,24 @@ class AdminController extends Controller
 
         if ($status->status == 'Completed'){
             $status->date_completed = date('Y-m-d H:m:s');
+            
+            $customer = $status->user->email;
+
+             // send mail to admin 
+            Mail::send('mails.job-completed-user-notification', [
+                'title' => 'Hello '.$status->user->name.',',
+                'p1' => 'Thank you for trusting us to deliver a good job for you.',
+                'p2' => 'We hope to see you around in the nearest feature.',
+                'p3' => 'Kindly leave a feedback using the link below',
+                'link' => url('/reviews/new'),
+                'p4' => 'Warmest Regards,',
+                'p5' => 'Augustine and the O & B Services Team',
+            ],
+                function ($message)use($customer) {
+                        $message->from('no-reply@oandbservices.com','O & B Services');
+                        $message->to($customer)
+                                ->subject('Job Completion');
+            });
         }else{
             $status->date_completed =NULL;
         }
@@ -134,7 +154,7 @@ class AdminController extends Controller
         $email = $request->email;
         $role = $request->role;
 
-        if($role == 0){
+        if($role == 0 && $mail == '' && $name == ''){
             $roles = '%%';
         }else{
             $roles = ''.$role;
@@ -172,33 +192,32 @@ class AdminController extends Controller
         $assignJob->date_assigned = date('Y-m-d H:m:s');
         $assignJob->date_completed = NULL;
 
-        $getHandymanUser = User::where('id', $assignJob->assigned_to)->select('name', 'email')->first();
-        $hMail = $getHandymanUser->email;
+        $getHandymanUser = User::where('id', $assignJob->assigned_to)->select('name', 'email','phone1')->first();
+        $handymanMail = $getHandymanUser->email;
         $file = $assignJob->photo;
-        
-         // send mail to admin 
-        Mail::send('mails.job-assigned', [
-            'title' => 'Hello '.$getHandymanUser->name.',',
-            'body' => 'A new job has been assign to you. Kindly view detials of request below.',
-            'userDetails' => 'Job Details',
-            'name' => $assignJob->user->name,
-            'email' => $assignJob->user->email,
-            'jobtitle' => $assignJob->job_title,
-            'desc' => $assignJob->description,
-            'budget' => $assignJob->amount,
-            'phone' => $assignJob->phone,
-            'location' => $assignJob->location,
-        ],
-            function ($message)use($file, $hMail) {
-                    $message->from('no-reply@oandbservices.com','O & B Services');
-                    $message->to($hMail)
-                            ->subject('New Assigned Job');
 
-            foreach(explode('|', $file ) as $files){
-                $attach = public_path('job-images').'/'. $files;
-                $message->attach($attach);
-            }
-        });
+        // send mail to handyman 
+        $handymanData = [
+            'handyman_name' => $getHandymanUser->name,
+            'customer_name' => $assignJob->user->name,
+            'customer_phone' => $assignJob->phone,
+            'job_title' => $assignJob->job_title,
+            'job_desc' => $assignJob->description,
+            'job_location' => $assignJob->location,
+            'job_amount' => $assignJob->amount,
+            'job_snippet' => $file,
+        ];
+        Mail::to($handymanMail)->send(new JobAssignHandymanNotification($handymanData));
+        
+        // send mail to customer
+        $userEmail = $assignJob->user->email; 
+        $customerData = [
+            'customer_name' => $assignJob->user->name,
+            'handyman_name' => $getHandymanUser->name,
+            'phone_number' => $getHandymanUser->phone1,
+        ];
+        // Mail::to($userEmail)->send(new JobAssignUserNotification($customerData));
+
         $assignJob->save();
 
         return redirect()->route('admin.job-history')->withStatus('Job assigned Successfully!');
@@ -238,6 +257,26 @@ class AdminController extends Controller
         return redirect()->route('admin.user-list')->withStatus('Admin user created successfully!');
     }
 
-  
+     // Mail::send('mails.job-assign-handyman-notification', [
+        //     'title' => 'Hello '.$getHandymanUser->name.',',
+        //     'body' => 'A new job has been assign to you. Kindly view detials of request below.',
+        //     'userDetails' => 'Job Details',
+        //     'name' => $assignJob->user->name,
+        //     'jobtitle' => $assignJob->job_title,
+        //     'desc' => $assignJob->description,
+        //     'budget' => $assignJob->amount,
+        //     'phone' => $assignJob->phone,
+        //     'location' => $assignJob->location,
+        // ],
+        //     function ($message)use($file, $hnadymanMail) {
+        //             $message->from('no-reply@oandbservices.com','O & B Services');
+        //             $message->to($hnadymanMail)
+        //                     ->subject('New Assigned Job');
+
+        //     foreach(explode('|', $file ) as $files){
+        //         $attach = public_path('job-images').'/'. $files;
+        //         $message->attach($attach);
+        //     }
+        // });
 
 }

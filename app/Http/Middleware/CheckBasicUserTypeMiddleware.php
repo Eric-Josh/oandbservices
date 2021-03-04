@@ -16,17 +16,17 @@ class CheckBasicUserTypeMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ( auth()->user()->user_type == 1 )
+        if ( auth()->user()->user_type == 2 )
         {
-            return redirect()->route('admin.dashboard');
+            return redirect('/customer/dashboard');
 
         }elseif (auth()->user()->user_type == 3)
         {
             return redirect()->route('handyman.dashboard');
             
-        }elseif (auth()->user()->user_type == 2)
+        }elseif (auth()->user()->user_type == 1)
         {
-            return redirect()->route('dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return $next($request);
