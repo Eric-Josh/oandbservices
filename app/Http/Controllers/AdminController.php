@@ -16,6 +16,7 @@ use App\Models\Merchandise;
 use Mail;
 use App\Mail\JobAssignUserNotification;
 use App\Mail\JobAssignHandymanNotification;
+use App\Mail\JobCompletedNotification;
 
 class AdminController extends Controller
 {
@@ -101,34 +102,42 @@ class AdminController extends Controller
             
             $customer = $status->user->email;
 
-             // send mail to admin 
-            Mail::send('mails.job-completed-user-notification', [
-                'title' => 'Hello '.$status->user->name.',',
-                'p1' => 'Thank you for trusting us to deliver a good job for you.',
-                'p2' => 'We hope to see you around in the nearest feature.',
-                'p3' => 'Kindly leave a feedback using the link below',
-                'link' => url('/reviews/new'),
-                'p4' => 'Warmest Regards,',
-                'p5' => 'Augustine and the O & B Services Team',
-            ],
-                function ($message)use($customer) {
-                        $message->from('no-reply@oandbservices.com','O & B Services');
-                        $message->to($customer)
-                                ->subject('Job Completion');
-            });
+            $jobCompleted = [
+                'customer_name' => $status->user->name,
+            ];
+
+            // forward mail to customer when admin confirms job completion
+            Mail::to($customer)->send(new JobCompletedNotification($jobCompleted));
+
         }else{
             $status->date_completed =NULL;
         }
 
         $status->save();
 
-        return redirect()->route('admin.job-history');
+        return redirect()->route('admin.job-history')->withStatus('Job marked completed');
     }
 
     public function merchandiseStatus(Request $request, $id)
     {
         $status = GeneralMerchandise::findOrFail($id);
         $status->status = $request->gmstatus;
+
+        if ($status->status == 'Completed'){
+            
+            $customer = $status->user->email;
+
+            $jobCompleted = [
+                'customer_name' => $status->user->name,
+            ];
+
+            // forward mail to customer when admin confirms job completion
+            Mail::to($customer)->send(new JobCompletedNotification($jobCompleted));
+
+        }else{
+            $status->date_completed =NULL;
+        }
+
         $status->save();
 
         return redirect()->route('admin.merchandise-history');
@@ -154,7 +163,7 @@ class AdminController extends Controller
         $email = $request->email;
         $role = $request->role;
 
-        if($role == 0 && $mail == '' && $name == ''){
+        if($role == 0 && $email == '' && $name == ''){
             $roles = '%%';
         }else{
             $roles = ''.$role;
@@ -196,7 +205,7 @@ class AdminController extends Controller
         $handymanMail = $getHandymanUser->email;
         $file = $assignJob->photo;
 
-        // send mail to handyman 
+        // mail to handyman 
         $handymanData = [
             'handyman_name' => $getHandymanUser->name,
             'customer_name' => $assignJob->user->name,
@@ -209,14 +218,14 @@ class AdminController extends Controller
         ];
         Mail::to($handymanMail)->send(new JobAssignHandymanNotification($handymanData));
         
-        // send mail to customer
+        // mail to customer
         $userEmail = $assignJob->user->email; 
         $customerData = [
             'customer_name' => $assignJob->user->name,
             'handyman_name' => $getHandymanUser->name,
             'phone_number' => $getHandymanUser->phone1,
         ];
-        // Mail::to($userEmail)->send(new JobAssignUserNotification($customerData));
+        Mail::to($userEmail)->send(new JobAssignUserNotification($customerData));
 
         $assignJob->save();
 

@@ -7,19 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class JobAssignUserNotification extends Mailable
+class JobCompletedNotification extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $customerData;
+    protected $jobCompleted;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($customerData)
+    public function __construct($jobCompleted)
     {
-        $this->customerData = $customerData;
+        $this->jobCompleted = $jobCompleted;
     }
 
     /**
@@ -30,11 +30,10 @@ class JobAssignUserNotification extends Mailable
     public function build()
     {
         return $this->from('no-reply@oandbservices.com','O & B Services')
-        ->subject('Job Assigned')
-        ->markdown('mails.job-assign-user-notification')->with([
-            'customerName' => $this->customerData['customer_name'],
-            'handymanName' => $this->customerData['handyman_name'],
-            'handymanPhone' => $this->customerData['phone_number'],
-        ]);
+                    ->subject('Job Completion')
+                    ->markdown('mails.job-completed-user-notification')->with([
+
+                        'customerName' => $this->jobCompleted['customer_name'],
+                    ]);
     }
 }

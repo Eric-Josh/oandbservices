@@ -36,7 +36,7 @@
                 <td> 
                     @foreach(explode('|', $jobs->photo) as $photo)
                     <a href="/job-images/{{ $photo }}" data-lightbox="example-set" class="example-image-link">
-                    <img src="/job-images/{{ $photo }}" id="avail-img" style="width:100px;height:100px" class="example-image img-thumbnail mx-auto d-block" > 
+                    <img src="/job-images/{{ $photo }}" id="avail-img" style="width:100px;height:100px" class="example-image img-thumbnail mx-auto inline-block" > 
                     </a>
                     @endforeach
                 </td>

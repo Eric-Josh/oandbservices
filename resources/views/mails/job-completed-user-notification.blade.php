@@ -1,11 +1,16 @@
-<h4><b>{{ $title }}</b></h4>
-<p>{{ $p1 }}</p>
-<p>{{ $p2 }}</p>
-<p>{{ $p3 }}</p>
-<a href="{{ $link }}" class="button button-blue">Rate & Review</a>
+@component('mail::message')
+{{ __('Hello '.$customerName.',') }}
 
-<br><br>
-<p>
-{{ $p4 }}<br>
-{{ $p5 }}
-</p>
+{{ __('Thank you for trusting us to deliver a good job for you.') }}
+
+{{ __('We hope to see you around in the nearest feature.') }}
+
+{{ __('Kindly leave a feedback using the link below.') }}
+
+@component('mail::button', ['url' => route('reviews.create')])
+{{ __('Rate & Review') }}
+@endcomponent
+
+{{ __('Regards,') }}<br>
+{{ __('O & B Service Team.') }}
+@endcomponent

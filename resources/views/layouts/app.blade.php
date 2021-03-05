@@ -51,7 +51,28 @@
 
         @stack('modals')
 
+        <footer class="bg-white shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" style="padding-bottom:15px; text-align:center">
+                {{ __('O & B Services') }}
+                <hr>
+                &copy {{ date('Y') }} @lang('All rights reserved.')
+            </div>
+        </footer>
+
         @livewireScripts
         <script src="{{ asset('js/lightbox.js') }}"></script>
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/60424e5d385de407571cfc9b/1f01g4822';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+        </script>
+        <!--End of Tawk.to Script-->
     </body>
 </html>

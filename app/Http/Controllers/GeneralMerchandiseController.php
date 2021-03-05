@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GeneralMerchandise;
 use App\Models\Merchandise;
+
 use Mail;
+use App\Mail\MerchandisePostUserNotification;
+use App\Mail\MerchandisePostAdminNotification;
 
 class GeneralMerchandiseController extends Controller
 {
@@ -63,37 +66,23 @@ class GeneralMerchandiseController extends Controller
         $postMerchandise->user_id = auth()->user()->id;
         $postMerchandise->location = $request->get('location');
 
-        // send mail to user 
-        Mail::send('mails.merchandise-user-notification', [
-            'title' => 'Hello '.auth()->user()->name.',',
-            'body' => 'Thank You for placing a request.
-                        We will connect you to a '. $postMerchandise->merchandise->merchandise .' within your chosen time.'
-            ],
-            function ($message) {
-                    $message->from('no-reply@oandbservices.com','O & B Services');
-                    $message->to(auth()->user()->email)
-                            ->subject('Merchandise - New Job Post');
-        });
+       
+        $customerEmail = auth()->user()->email;
+        $customerData = [
+            'customer_name' => auth()->user()->name,
+            'customer_email' => $customerEmail,
+            'customer_phone' => $request->get('phone'),
+            'merchanddise_type' => $postMerchandise->merchandise->merchandise,
+            'job_desc'=>$request->get('description'),
+            'job_amount'=>$request->get('amount'),
+            'job_loc'=>$request->get('location'),
+            'job_start_time'=>$request->get('time_frame'),
+        ];
+         // mail to user 
+        Mail::to($customerEmail)->send(new MerchandisePostUserNotification($customerData));
+        // mail to admin 
+        Mail::to('info@oandbservices.com')->send(new MerchandisePostAdminNotification($customerData));
 
-        // send mail to admin 
-        Mail::send('mails.merchandise-admin-notification', [
-            'title' => 'Hello Admin,',
-            'body' => 'A new Merchandise resquest has been posted. Kindly view detials of request below.',
-            'userDetails' => 'Merchandise Details',
-            'name' => auth()->user()->name,
-            'email' => auth()->user()->email,
-            'jobtitle' => $postMerchandise->merchandise->merchandise,
-            'desc' => $request->get('description'),
-            'budget' => $request->get('amount'),
-            'phone' => $request->get('phone'),
-            'location' => $request->get('location'),
-            'userTimeFrame' => $request->get('time_frame')
-        ],
-            function ($message) {
-                    $message->from('no-reply@oandbservices.com','O & B Services');
-                    $message->to(auth()->user()->email)
-                            ->subject('Merchandise - New Job Post');
-        });
         $postMerchandise->save();
 
         return redirect('/general-merchandise')->withStatus(__('Job posted successfully. Kindly check your mailbox'));

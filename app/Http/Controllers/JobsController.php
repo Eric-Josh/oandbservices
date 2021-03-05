@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Jobs;
 use App\Models\JobTypes;
+
 use Mail;
+use App\Mail\JobPostAdminNotification;
+use App\Mail\JobPostUserNotification;
 
 class JobsController extends Controller
 {
@@ -93,46 +96,31 @@ class JobsController extends Controller
         $postJob->reference_id = rand().date('Ymd');
         $postJob->photo = implode("|",$jobImage);
         $postJob->location = $request->get('location');
-        
 
-        // send mail to user 
-        Mail::send('mails.jobpost-user-notification', [
-            'title' => 'Hello '.auth()->user()->name.',',
-            'body' => 'We will connect you to a handy man within your chosen time.'
-            ],
-            function ($message) {
-                    $message->from('no-reply@oandbservices.com','O & B Services');
-                    $message->to(auth()->user()->email)
-                            ->subject('O & B Services: New Job Post');
-        });
+        // mail to user 
+        $customerEmail = auth()->user()->email;
+        $customerName = [
+            'customer_name' => auth()->user()->name,
+        ];
+        Mail::to($customerEmail)->send(new JobPostUserNotification($customerName));
 
         
         $file = $postJob->photo;
-        
-         // send mail to admin 
-         Mail::send('mails.jobpost-admin-notification', [
-            'title' => 'Hello Admin,',
-            'body' => 'A new job has been posted. Kindly view detials of request below.',
-            'userDetails' => 'Job Details',
-            'name' => auth()->user()->name,
-            'email' => auth()->user()->email,
-            'jobtitle' => $request->get('jobtitle'),
-            'desc' => $request->get('description'),
-            'budget' => $request->get('amount'),
-            'phone' => $request->get('phone'),
-            'location' => $request->get('location'),
-            'userTimeFrame' => $request->get('time_frame')
-        ],
-            function ($message)use($file) {
-                    $message->from('no-reply@oandbservices.com','O & B Services');
-                    $message->to(auth()->user()->email)
-                            ->subject('New Job Post');
 
-            foreach(explode('|', $file ) as $files){
-                $attach = public_path('job-images').'/'. $files;
-                $message->attach($attach);
-            }
-        });
+        // mail to admin
+        $jobDataAdmin = [
+            'customer_name' => auth()->user()->name,
+            'customer_email' => auth()->user()->email,
+            'customer_phone' => $request->get('phone'),
+            'job_title' => $request->get('jobtitle'),
+            'job_desc' => $request->get('description'),
+            'job_location' => $request->get('location'),
+            'job_amount' => $request->get('amount'),
+            'job_start_time' => $request->get('time_frame'),
+            'job_snippet' => $file,
+        ];
+        Mail::to('info@oandbservices.com')->send(new JobPostAdminNotification($jobDataAdmin));
+
         $postJob->save();
         
         return redirect('/jobs')->withStatus(__('Job posted successfully. Kindly check your mailbox'));

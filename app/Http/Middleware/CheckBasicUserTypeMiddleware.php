@@ -18,7 +18,7 @@ class CheckBasicUserTypeMiddleware
     {
         if ( auth()->user()->user_type == 2 )
         {
-            return redirect('/customer/dashboard');
+            return redirect()->route('customer-dashboard');
 
         }elseif (auth()->user()->user_type == 3)
         {

@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\JobTypesController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\MerchandiseController;
@@ -12,11 +15,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\BasicUserController;
 
-use App\Models\Jobs;
-use App\Models\GeneralMerchandise;
-use App\Models\User;
+// use App\Models\Jobs;
+// use App\Models\GeneralMerchandise;
+// use App\Models\User;
 
-use App\Mail\JobAssignHandymanNotification;
+// use App\Mail\JobAssignHandymanNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +36,24 @@ Route::get('/', function () {
     return view('guest');
 });
 
+// email verification route
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/dashboard');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 // handyman registration page
 Route::get('/handyman-register', function () {
 
@@ -47,17 +68,29 @@ Route::post('/handyman-register', [HandyManController::class, 'register'])->name
 /* protect registered user views from guest/spy */
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Route::middleware(['auth', 'check_login_user_type'])->group(function () {
-        // user dashboard
-        Route::get('/customer/dashboard',  [BasicUserController::class, 'dashboard'])->name('customer-dashboard');
-    // });    
+    Route::get('/dashboard', function(){
+
+        if(auth()->user()->user_type === 2)
+        {
+            return redirect()->route('customer-dashboard');
+
+        }elseif (auth()->user()->user_type === 3)
+        {
+            return redirect()->route('handyman.dashboard');
+        }else{
+            return redirect()->route('admin.dashboard');
+        }
+
+    })->name('dashboard');
+
+    Route::get('/customer/dashboard',  [BasicUserController::class, 'dashboard'])->name('customer-dashboard');   
     
     // accessible only when registration is completed
     Route::middleware(['auth', 'handyman_registration_completed'])->group(function () {
 
         Route::get('/handyman/dashboard', [HandyManController::class, 'index'])->name('handyman.dashboard');
     });
-
+    
     // handyman registration step 2 which must be after step 1
     Route::get('/handyman-register-step-2', [HandyManController::class, 'create'])->name('handyman-register-step-2.create');
     Route::put('/handyman-register-step-2/{id}', [HandyManController::class, 'update'])->name('handyman-register-step-2.update');
@@ -114,10 +147,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/reviews/post',[ReviewsController::class, 'store'])->name('reviews.store');
     Route::get('/reviews',[ReviewsController::class, 'index'])->name('reviews');
 
-    Route::get('/email', function(){
+    // Route::get('/email', function(){
         
-        return new JobAssignHandymanNotification();
-    });
+    //     return new JobAssignHandymanNotification();
+    // });
     
 });
 

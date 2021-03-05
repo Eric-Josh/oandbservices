@@ -32,6 +32,6 @@ class ReviewsController extends Controller
         ]);
         $reviews->save();
 
-        return redirect()->route('reviews');
+        return redirect()->route('dashboard')->withStatus('success','Thanks for you feedback.');
     }
 }

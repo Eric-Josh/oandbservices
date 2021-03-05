@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>O & B Services</title>
-</head>
-<body class="bg-light">
-    <h4><b>{{ $title }}</b></h4>
-    <p>{{ $body }}</p>
-    
-    <p>Thank you</p>
-</body>
-</html>
+@component('mail::message')
+{{ __('Hello '.$customerName.',') }}
+
+{{ __('We will connect you to a handy man shortly.') }}
+
+
+{{ __('Regards ') }}<br>
+{{ __('O & B Service Team ') }}
+@endcomponent
+
