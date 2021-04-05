@@ -70,14 +70,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function(){
 
-        if(auth()->user()->user_type === 2)
+        if(auth()->user()->user_type == 2)
         {
             return redirect()->route('customer-dashboard');
 
-        }elseif (auth()->user()->user_type === 3)
+        }elseif (auth()->user()->user_type == 3)
         {
             return redirect()->route('handyman.dashboard');
-        }else{
+        }elseif (auth()->user()->user_type == 1)
+        {
             return redirect()->route('admin.dashboard');
         }
 

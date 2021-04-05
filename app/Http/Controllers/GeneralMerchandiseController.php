@@ -9,6 +9,8 @@ use App\Models\Merchandise;
 use Mail;
 use App\Mail\MerchandisePostUserNotification;
 use App\Mail\MerchandisePostAdminNotification;
+use App\Mail\MerchandiseUpdateAdminNotification; 
+use App\Mail\MerchandiseDeleteAdminNotification;
 
 class GeneralMerchandiseController extends Controller
 {
@@ -47,7 +49,7 @@ class GeneralMerchandiseController extends Controller
     {
         $request->validate([
             'merchandise' => 'required|numeric',
-            'phone' => 'required|numeric|digits:10',
+            'phone' => 'required|numeric|digits:11',
             'description' => 'required|min:30',
             'amount' => 'required|numeric',
             'time_frame' => 'required',
@@ -78,10 +80,10 @@ class GeneralMerchandiseController extends Controller
             'job_loc'=>$request->get('location'),
             'job_start_time'=>$request->get('time_frame'),
         ];
-         // mail to user 
-        Mail::to($customerEmail)->send(new MerchandisePostUserNotification($customerData));
+        // mail to user 
+        // Mail::to($customerEmail)->send(new MerchandisePostUserNotification($customerData));
         // mail to admin 
-        Mail::to('info@oandbservices.com')->send(new MerchandisePostAdminNotification($customerData));
+        // Mail::to('info@oandbservices.com')->send(new MerchandisePostAdminNotification($customerData));
 
         $postMerchandise->save();
 
@@ -129,7 +131,7 @@ class GeneralMerchandiseController extends Controller
 
         $request->validate([
             'merchandise' => 'required|numeric',
-            'phone' => 'required|numeric|digits:10',
+            'phone' => 'required|numeric|digits:11',
             'description' => 'required|min:30',
             'amount' => 'required|numeric',
             'time_frame' => 'required',
@@ -144,6 +146,18 @@ class GeneralMerchandiseController extends Controller
         $gMerchandise->location = $request->input('location');
         $gMerchandise->save();
 
+        $customerData = [
+            'customer_name' => auth()->user()->name,
+            'customer_email' => auth()->user()->email,
+            'customer_phone' => $request->input('phone'),
+            'merchanddise_type' => $gMerchandise->merchandise->merchandise,
+            'job_desc'=>$request->input('description'),
+            'job_amount'=>$request->input('amount'),
+            'job_loc'=>$request->input('location'),
+            'job_start_time'=>$request->input('time_frame'),
+        ];
+        Mail::to('jezeh@swifta.com')->send(new MerchandiseUpdateAdminNotification($customerData));
+
         return redirect('/general-merchandise')->withStatus(__('Job updated successfully.'));
     }
 
@@ -157,6 +171,19 @@ class GeneralMerchandiseController extends Controller
     {
         $gmerchandise = GeneralMerchandise::find($id);
         $gmerchandise->delete();
+
+        $customerData = [
+            'customer_name' => auth()->user()->name,
+            'customer_email' => auth()->user()->email,
+            'customer_phone' => $gmerchandise->phone,
+            'merchanddise_type' => $gmerchandise->merchandise->merchandise,
+            'job_desc'=>$gmerchandise->description,
+            'job_amount'=>$gmerchandise->amount,
+            'job_loc'=>$gmerchandise->location,
+            'job_start_time'=>$gmerchandise->time_frame,
+        ];
+        Mail::to('jezeh@swifta.com')->send(new MerchandiseDeleteAdminNotification($customerData));
+        // Mail::to('info@oandbservices.com')->send(new MerchandiseDeleteAdminNotification($customerData));
 
         return redirect('/general-merchandise')->withStatus(__('Job deleted successfully.'));
     }

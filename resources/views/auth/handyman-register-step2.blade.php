@@ -29,7 +29,7 @@
                 <x-jet-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
             </div>
 
-            <div class="form-group mt-4" id="work-proof">
+            <div class="form-group mt-4" id="work-proof" style="display:none">
                 <label for="photo" class="labels mt-4">Add snippets of your previous work </label>
                 <div class="input-group">
                     <span class="input-group-btn">
@@ -69,7 +69,7 @@
 <script>
 $(function(){
 
-$('#work-proof').hide();
+// $('#work-proof').hide();
 $('#profession').change(function(){
     if ($(this).val() == 4 || $(this).val() == 6 || $(this).val() == 5 || $(this).val() == 9)
     {
@@ -81,15 +81,16 @@ $('#profession').change(function(){
 });
 
 $('form').submit(function(){
-    if ($('#work-proof').show() && $('#gallery-photo-add').val() === '')
-    {
-        $('#error').text('Proof of work is required');
-        $('#error').css('color','red');
-        return false;
-    }else{
-        $('#error').hide();
-        return true;
-    }
+
+    // if ($('#work-proof').show() && $('#gallery-photo-add').val() === '')
+    // {
+    //     $('#error').text('Proof of work is required');
+    //     $('#error').css('color','red');
+    //     return false;
+    // }else{
+    //     $('#error').hide();
+    //     return true;
+    // }
 });
 
 

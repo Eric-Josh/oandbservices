@@ -67,7 +67,7 @@ class JobsController extends Controller
         $request->validate([
             'jobtype' => 'required',
             'jobtitle' => 'required',
-            'phone' => 'required|numeric|digits:10',
+            'phone' => 'required|numeric|digits:11',
             'description' => 'required|min:30',
             'time_frame' => 'required',
             'amount' => 'required|numeric',
@@ -75,9 +75,12 @@ class JobsController extends Controller
             'location' => 'required'
             
         ]);
+
+      
         $postJob = new Jobs;
         $jobImage=array();
         if($request->file('file')){
+            
             foreach($request->file('file') as $image)
             {
                 $new_name = rand() . '.' . $image->getClientOriginalExtension();

@@ -140,12 +140,12 @@
                             <div class="opening-hours">
                                 <h4>Opening Days:</h4>
                                 <p class="pl-3">
-                                    <span><strong>Monday – Friday:</strong> 9am to 18 pm</span>
-                                    <span><strong>Saturday :</strong> 9am to 16 pm</span>
+                                    <span><strong>Monday – Friday:</strong> 9am to 6pm</span>
+                                    <span><strong>Saturday :</strong> 9am to 4pm</span>
                                 </p>
                                 <h4>Vacations:</h4>
                                 <p class="pl-3">
-                                    <span>All Sunday Days</span>
+                                    <span>All Sundays</span>
                                     <span>All Bank Holidays</span>
                                 </p>
                             </div>
@@ -162,7 +162,8 @@
                         <div class="col-md-12 heading-section ftco-animate">
                             <span class="subheading">Welcome to O & B Services</span>
                             <h2 class="mb-4">Let's take care of your chores</h2>
-                            <p>Need a handy man to do your chores?<br>We have got you covered by building a service that can take care of your house/site chores leaving you with no worries.</p>
+                            <p>Need a handy man to do your chores?<br>We have got you covered by building a service that can take care of your house chores leaving you with no worries.</p>
+                            <p>We have skilled workers with cscs card.</p>
                         </div>
                     </div>
                     <div class="row  py-5" id="section-counter">
@@ -223,7 +224,7 @@
                                                 <p class="name">Post a Job for Free</p>
                                             </div>
                                         </div>
-                                        <p class="mb-1">Talk to us about your home needs, lets help you out.</p>
+                                        <p class="mb-1">Talk to us about your home needs, let's help you out.</p>
                                     </div>
                                 </div>
                             </div>
@@ -289,7 +290,7 @@
                 </div>
                 <div class="media-body pl-3">
                     <h3 class="heading">Cleaning</h3>
-                    <p>Stay away from dirt by hiring our cleaning service. stay fresh stay clean</p>
+                    <p>Stay away from dirt by hiring our cleaning service. Stay fresh stay clean</p>
                     
                 </div>
                 </div>
@@ -340,7 +341,7 @@
                         </div>
                         <div class="media-body pl-3">
                             <h3 class="heading">Painter</h3>
-                            <p>If you are ready to brighten your walls and make it look good, we have professional for you. </p>
+                            <p>If you are ready to brighten your walls and make it look good, we have professionals for you. </p>
                         </div>
                     </div>
                 </div>
@@ -352,7 +353,7 @@
                         </div>
                         <div class="media-body pl-3">
                             <h3 class="heading">Plumber</h3>
-                            <p>With our experience plumbers, we are on standby to give you the right services.</p>
+                            <p>With our experienced plumbers, we are on standby to give you the right services.</p>
                         </div>
                     </div>
                 </div>
@@ -377,7 +378,7 @@
                                     <span class="material-icons" style="font-size:60px; color:#ffffff">access_time</span>
                                 </div>
                                 <h4 class="heading-2">Save Time</h4>
-                                <p>Do you feel like you are spending more time doing house chores when you are suppose to be doing more vital things. We are here to free up your time.</p>
+                                <p>Do you feel like you are spending more time doing house chores when you are supposed to be doing more vital things. We are here to free up your time.</p>
                                 
                             </div>
                         </div>
@@ -389,7 +390,7 @@
                                     <span class="material-icons" style="font-size:60px; color:#ffffff">health_and_safety</span>
                                 </div>
                                 <h4 class="heading-2">Save Energy</h4>
-                                <p>Save you energy for a more productive things like your having time with your family and loved one's. Leave us to save the day's energy for you. </p>
+                                <p>Save you energy for a more productive things like your having time with your family and loved ones. Leave us to save the day's energy for you. </p>
                             </div>
                         </div>
                     </div>

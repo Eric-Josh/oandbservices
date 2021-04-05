@@ -32,21 +32,27 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="jobtype" class="labels">What would you like to have done?</label>
-                                    <select class="custom-select block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" name="jobtype" required >
+                                    <select class="custom-select block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring 
+                                        focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" 
+                                        name="jobtype" required >
                                         <option selected>Choose a trade</option>
                                         @foreach ($jobtypes as $jobtype)
-                                        <option value="{{ $jobtype->id }}">{{ $jobtype->name }}</option>
+                                        <option value="{{ $jobtype->id }}" {{old('jobtype')==$jobtype->id ? 'selected':'' }}>{{ $jobtype->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
 
-                                <div class="form-group">
+                                
                                 <div class="row">
                                     <div class="col-sm-7">
-                                        <label for="description" class="labels ">Describe Job in details</label>
-                                        <textarea class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" rows="5" id="desc" name="description" required ></textarea>
-                                        <span id="desc-notice"></span>
-                                        <p>At least 30 characters please</p>
+                                        <div class="form-group">
+                                            <label for="description" class="labels ">Describe Job in details</label>
+                                            <textarea class="form-control description block mt-1 w-full border-gray-300 focus:border-indigo-300 
+                                            focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" 
+                                            rows="5" id="desc" name="description"  required >{{old('description')}}</textarea> 
+                                            <p id="jb-details"></p>                                         
+                                        </div>
+                                        
                                     </div>
                                     <div class="col-sm-5">
                                         <h6><b>What makes a good job description</b></h6>
@@ -57,24 +63,28 @@
                                         </ul>
                                     </div>
                                 </div>
-                                </div> 
+                                 
 
                                 <div class="form-group">
                                     <label for="timeframe" class="labels">When would you like the job to start?</label><br>
                                     <div class="custom-control custom-radio ">
-                                        <input type="radio" class="custom-control-input" id="customRadio" name="time_frame" value="Ugently">
+                                        <input type="radio" class="custom-control-input" id="customRadio" name="time_frame" value="Ugently" 
+                                            {{ (old('time_frame') == 'Ugently') ? 'checked' : ''}}>
                                         <label class="custom-control-label" for="customRadio">Ugently</label>
                                     </div>
                                     <div class="custom-control custom-radio ">
-                                        <input type="radio" class="custom-control-input" id="customRadio2" name="time_frame" value="Within 24 hours">
+                                        <input type="radio" class="custom-control-input" id="customRadio2" name="time_frame" value="Within 24 hours" 
+                                            {{ (old('time_frame') == 'Within 24 hours') ? 'checked' : ''}}>
                                         <label class="custom-control-label" for="customRadio2">Within 24 hours</label>
                                     </div> 
                                     <div class="custom-control custom-radio ">
-                                        <input type="radio" class="custom-control-input" id="customRadio3" name="time_frame" value="Within 2 days">
+                                        <input type="radio" class="custom-control-input" id="customRadio3" name="time_frame" value="Within 2 days" 
+                                            {{ (old('time_frame') == 'Within 2 days') ? 'checked' : ''}}>
                                         <label class="custom-control-label" for="customRadio3">Within 2 days</label>
                                     </div>
                                     <div class="custom-control custom-radio ">
-                                        <input type="radio" class="custom-control-input" id="customRadio4" name="time_frame" value="Within 2 weeks" >
+                                        <input type="radio" class="custom-control-input" id="customRadio4" name="time_frame" value="Within 2 weeks" 
+                                            {{ (old('time_frame') == 'Within 2 weeks') ? 'checked' : ''}}>
                                         <label class="custom-control-label" for="customRadio4">Within 2 weeks</label>
                                     </div> 
                                 </div> 
@@ -82,14 +92,16 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="description" class="labels">How much is your budget?</label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="amount" name="amount" required />
+                                            <label for="budget" class="labels">How much is your budget?</label>
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="amount" name="amount" value="{{old('amount')}}" required />
                                         </div> 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="phone" class="labels">Phone Number </label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="phone" name="phone" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="phone" name="phone" value="{{old('phone')}}" required />
                                         </div> 
                                     </div>
                                 </div>
@@ -98,13 +110,15 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="title" class="labels">Give your job a name (title) </label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="jobtitle" name="jobtitle" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="jobtitle" name="jobtitle" value="{{old('jobtitle')}}" required />
                                         </div> 
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="location" class="labels">Location </label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"" id="location" name="location" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="location" name="location" value="{{old('location')}}" required />
                                         </div> 
                                     </div>
                                 </div>
@@ -141,15 +155,15 @@
     
 $(function() {
 
-    // validate description
-    $("form#job-form").submit(function(){
-        if($('#desc').val().length < 30){
-            $('#desc-notice').text('validate word count of 30 character');
-        }else{
-            $('#desc-notice').text();
+    $('#jb-details').text('At least 30 characters please');
+
+    $('#desc').keyup(function(){
+        var char = $(this).val();
+        if (char.length > 0 ){
+            $('#jb-details').text(char.length+' Character(s) written.')
         }
+        
     });
-    
 
     // Multiple images preview in browser
     var imagesPreview = function(input, placeToInsertImagePreview) {

@@ -14,20 +14,19 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <!-- <a href="{{ route('gmerchandise.create') }}" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Post New Job</a> <br><br> -->
+                <a href="{{ route('gmerchandise.create') }}" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Post New Job</a> <br><br>
 
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered ">
                         <thead class="thead-dark">
                             <tr>
-                                <!-- <th scope="col">S/N</th> -->
                                 <th scope="col">Merchandise</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Start Time</th>
                                 <th scope="col">Request Date</th>
-                                <!-- <th scope="col">Edit Job</th> -->
-                                <!-- <th scope="col">Delete</th> -->
+                                <th scope="col">Edit Job</th> 
+                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,14 +43,14 @@
                                 @endif
                                 <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}">{{ $generalMerchandises->time_frame }}</a></td>
                                 <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}">{{ $generalMerchandises->created_at->format('j F, Y') }}</a></td>
-                                <!-- <td><a href="#" class="gm-jobid"  data-id="{{ $generalMerchandises->id }}" data-toggle="tooltip" data-placement="bottom" title="Edit Job">Edit</a></td> -->
-                                <!-- <td>
+                                <td><a href="{{route('gmerchandise.edit', $generalMerchandises->id)}}" class="gm-jobid"  data-toggle="tooltip" data-placement="bottom" title="Edit Job">Edit</a></td> 
+                                <td>
                                     <form method="POST" action="{{ route('gmerchandise.destroy', $generalMerchandises->id) }}">
                                     @csrf
                                     @method('delete')
                                     <button onclick="return confirm('Are you very sure?')" class="btn btn-outline-danger">Delete</button>
                                     </form>
-                                </td> -->
+                                </td>
                             </tr>
                             <!-- @php $i++; @endphp   -->
                             @endforeach
