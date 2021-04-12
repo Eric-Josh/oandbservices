@@ -84,46 +84,51 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="description" class="labels">How much is your budget?</label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="amount" name="amount" value="{{ $jobs->amount }}" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 
+                                            focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" 
+                                            id="amount" name="amount" value="{{ $jobs->amount }}" required />
                                         </div> 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="phone" class="labels">Phone Number </label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="phone" name="phone" value="{{ $jobs->phone }}" required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 
+                                            focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" 
+                                            id="phone" name="phone" value="{{ $jobs->phone }}" required />
                                         </div> 
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="title" class="labels">Give your job a name (title) </label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="jobtitle" name="jobtitle"  value="{{ $jobs->job_title }}"  required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 
+                                            focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" 
+                                            id="jobtitle" name="jobtitle"  value="{{ $jobs->job_title }}"  required />
                                         </div> 
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="location" class="labels">Location </label>
-                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="location" name="location"  value="{{ $jobs->location }}"  required />
+                                            <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 
+                                            focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" 
+                                            id="location" name="location"  value="{{ $jobs->location }}"  required />
                                         </div> 
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="photo" class="labels">Add a photo </label>
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <span class="btn btn-default btn-file">
-                                                Browse… <input type="file"  id="gallery-photo-add" name="file[]" accept="image" multiple  />
-                                            </span>
-                                        </span>
-                                    </div>
-                                    
+                                    <label for="photo" class="labels">Add a photo </label> <br>
+                                    <input type="file"  id="gallery-photo-add" name="file[]"  
+                                    accept="image/*"  multiple  /> 
+                                    <input type="hidden" id="hidden" name="hidden" value="{{$jobs->photo}}">
+                                            
                                     <div class="gallery" id="gallery">
                                     @if($jobs->photo !='' and $jobs->photo != null)
                                         @foreach(explode('|', $jobs->photo) as $photo) 
-                                            <img src="/job-images/{{ $photo }}" id="avail-img" style="height: 200px; width: 200px; padding-right: 5px;" class="img-thumbnail inline" > 
+                                            <img src="/job-images/{{ $photo }}"  style="height: 200px; width: 200px; padding-right: 5px;" 
+                                            class="img-thumbnail inline avail-img" > 
                                         @endforeach
                                     @endif
                                     </div> 
@@ -143,7 +148,16 @@
 <script type="text/javascript">
     
 $(function() {
+
+    $('#gallery-photo-add').change(function(){
+        $('.avail-img').hide();
+        if($(this).val() != ''){
+            $('#hidden').val($(this).val());
+        }
+        console.log($('#hidden').val());
+    });
     
+
     $("form#job-form").submit(function(){
 
         // validate description
@@ -173,7 +187,7 @@ $(function() {
                 var reader = new FileReader();
 
                 reader.onload = function(event) {
-                    $($.parseHTML('<img style="height: 200px; width: 200px; padding-right: 5px;" class="img-thumbnail inline">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                    $($.parseHTML('<img style="height: 200px; width: 200px; padding-right: 5px;" class="img-thumbnail inline avail-imgs">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
                 }
                 reader.readAsDataURL(input.files[i]);
             }
@@ -183,5 +197,8 @@ $(function() {
     $('#gallery-photo-add').on('change', function() {
         imagesPreview(this, 'div.gallery');
     });
+
+    
+    
 });
 </script>

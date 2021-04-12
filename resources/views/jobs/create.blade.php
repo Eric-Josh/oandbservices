@@ -94,14 +94,16 @@
                                         <div class="form-group">
                                             <label for="budget" class="labels">How much is your budget?</label>
                                             <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
-                                            focus:ring-opacity-50 rounded-md shadow-sm" id="amount" name="amount" value="{{old('amount')}}" required />
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="amount" name="amount" value="{{old('amount')}}" 
+                                            required />
                                         </div> 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="phone" class="labels">Phone Number </label>
                                             <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
-                                            focus:ring-opacity-50 rounded-md shadow-sm" id="phone" name="phone" value="{{old('phone')}}" required />
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="phone" name="phone" value="{{old('phone')}}" 
+                                            required />
                                         </div> 
                                     </div>
                                 </div>
@@ -111,27 +113,24 @@
                                         <div class="form-group">
                                             <label for="title" class="labels">Give your job a name (title) </label>
                                             <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
-                                            focus:ring-opacity-50 rounded-md shadow-sm" id="jobtitle" name="jobtitle" value="{{old('jobtitle')}}" required />
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="jobtitle" name="jobtitle" value="{{old('jobtitle')}}" 
+                                            required />
                                         </div> 
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="location" class="labels">Location </label>
                                             <input type="text" class="form-control block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
-                                            focus:ring-opacity-50 rounded-md shadow-sm" id="location" name="location" value="{{old('location')}}" required />
+                                            focus:ring-opacity-50 rounded-md shadow-sm" id="location" name="location" value="{{old('location')}}" 
+                                            required />
                                         </div> 
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="photo" class="labels">Add a photo </label>
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <span class="btn btn-default btn-file">
-                                                Browse… <input type="file"  id="gallery-photo-add" name="file[]" accept="image/*" multiple />
-                                            </span>
-                                        </span>
-                                    </div>
+                                    <label for="photo" class="labels">Add a photo </label><br>
+                                    <input type="file"  id="gallery-photo-add" name="file[]" accept="image/*" multiple />
+                                            
                                     <div class="gallery" id="gallery"></div>
                                 </div> 
                                 
@@ -155,6 +154,12 @@
     
 $(function() {
 
+    $("#gallery-photo-add").change(function(){
+        $(this).each(function() {
+            console.log($(this).val());
+        });
+    });
+    
     $('#jb-details').text('At least 30 characters please');
 
     $('#desc').keyup(function(){

@@ -31,7 +31,7 @@ class MerchandiseUpdateAdminNotification extends Mailable
     {
         return $this->from('no-reply@oandbservices.com','O & B Services')
                     ->subject('Merchandise - Update on Job Post')
-                    ->markdown('mails/merchndise-update-admin-notification')
+                    ->markdown('mails.merchndise-update-admin-notification')
                     ->with([
                         'customerName'=>$this->customerData['customer_name'],
                         'customerEmail' => $this->customerData['customer_email'],

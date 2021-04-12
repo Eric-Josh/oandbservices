@@ -31,7 +31,8 @@ class JobPostAdminNotification extends Mailable
     {
         $mail = $this->from('no-reply@oandbservices.com','O & B Services')
         ->subject('New Job Post')
-        ->markdown('mails.jobpost-admin-notification')->with([
+        ->markdown('mails.jobpost-admin-notification')
+        ->with([
             'customerName' => $this->jobDataAdmin['customer_name'],
             'customerEmail' => $this->jobDataAdmin['customer_email'],
             'customerPhone' => $this->jobDataAdmin['customer_phone'],

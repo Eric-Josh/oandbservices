@@ -9,6 +9,8 @@ use App\Models\JobTypes;
 use Mail;
 use App\Mail\JobPostAdminNotification;
 use App\Mail\JobPostUserNotification;
+use App\Mail\JobUpdateAdminNotication;
+use App\Mail\JobDeleteAdminNotication;
 
 class JobsController extends Controller
 {
@@ -105,7 +107,7 @@ class JobsController extends Controller
         $customerName = [
             'customer_name' => auth()->user()->name,
         ];
-        Mail::to($customerEmail)->send(new JobPostUserNotification($customerName));
+        //Mail::to($customerEmail)->send(new JobPostUserNotification($customerName));
 
         
         $file = $postJob->photo;
@@ -122,7 +124,7 @@ class JobsController extends Controller
             'job_start_time' => $request->get('time_frame'),
             'job_snippet' => $file,
         ];
-        Mail::to('info@oandbservices.com')->send(new JobPostAdminNotification($jobDataAdmin));
+        //Mail::to('info@oandbservices.com')->send(new JobPostAdminNotification($jobDataAdmin));
 
         $postJob->save();
         
@@ -173,29 +175,29 @@ class JobsController extends Controller
         $request->validate([
             'jobtype' => 'required',
             'jobtitle' => 'required',
-            'phone' => 'required|numeric|digits:10',
+            'phone' => 'required|numeric|digits:11',
             'description' => 'required|min:30',
             'time_frame' => 'required',
             'amount' => 'required|numeric',
-            'file' => 'required',
             'location' => 'required'
             
         ]);
+        // $file=$request->file('file');
+        $hidden=$request->input('hidden');
 
-        if($request->file('file') != ''){
+        // $getFile = $postJob->where('photo', 'like', '%'.$hidden.'%');
+        if( $postJob->photo == $hidden ){
 
-            // code for remove old file
-            if($postJob->photo != ''  && $postJob->photo != null){
-                $old_photo = public_path('job-images').'/'.$postJob->photo;
-                unlink($old_photo);
-            }
-
+            $postJob->photo = $hidden;
+            
+        }else{
             foreach($request->file('file') as $image)
             {
                 $new_name = rand() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('job-images'), $new_name);
                 $jobImage[] = $new_name;
             }
+                $postJob->photo = implode("|",$jobImage);
         }
         $postJob->job_id = $request->input('jobtype');
         $postJob->job_title = $request->input('jobtitle');
@@ -204,8 +206,20 @@ class JobsController extends Controller
         $postJob->time_frame = $request->input('time_frame');
         $postJob->amount = $request->input('amount');
         $postJob->location = $request->input('location');
-        $postJob->photo = implode("|",$jobImage);
         $postJob->save();
+
+        $jobDataAdmin = [
+            'customer_name' => auth()->user()->name,
+            'customer_email' => auth()->user()->email,
+            'customer_phone' => $request->input('phone'),
+            'job_title' => $request->input('jobtitle'),
+            'job_desc' => $request->input('description'),
+            'job_location' => $request->input('location'),
+            'job_amount' => $request->input('amount'),
+            'job_start_time' => $request->input('time_frame'),
+            'job_snippet' => $postJob->photo,
+        ];
+        Mail::to('jezeh@swifta.com')->send(new JobUpdateAdminNotication($jobDataAdmin));
 
         return redirect('/jobs')->withStatus(__('Job updated successfully.'));
     }
@@ -220,6 +234,19 @@ class JobsController extends Controller
     {
         $jobs = Jobs::find($id);
         $jobs->delete();
+        
+        $jobDataAdmin = [
+            'customer_name' => auth()->user()->name,
+            'customer_email' => auth()->user()->email,
+            'customer_phone' => $jobs->phone,
+            'job_title' => $jobs->jobtitle,
+            'job_desc' => $jobs->description,
+            'job_location' => $jobs->location,
+            'job_amount' => $jobs->amount,
+            'job_start_time' => $jobs->time_frame,
+            'job_snippet' => $jobs->photo,
+        ];
+        Mail::to('info@oandbservices.com')->send(new JobDeleteAdminNotication($jobDataAdmin));
 
         return redirect('/jobs')->withStatus(__('Job deleted successfully.'));
     }

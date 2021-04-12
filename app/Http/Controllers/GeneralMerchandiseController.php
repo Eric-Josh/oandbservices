@@ -81,9 +81,9 @@ class GeneralMerchandiseController extends Controller
             'job_start_time'=>$request->get('time_frame'),
         ];
         // mail to user 
-        // Mail::to($customerEmail)->send(new MerchandisePostUserNotification($customerData));
+        Mail::to($customerEmail)->send(new MerchandisePostUserNotification($customerData));
         // mail to admin 
-        // Mail::to('info@oandbservices.com')->send(new MerchandisePostAdminNotification($customerData));
+        Mail::to('info@oandbservices.com')->send(new MerchandisePostAdminNotification($customerData));
 
         $postMerchandise->save();
 
@@ -156,7 +156,7 @@ class GeneralMerchandiseController extends Controller
             'job_loc'=>$request->input('location'),
             'job_start_time'=>$request->input('time_frame'),
         ];
-        Mail::to('jezeh@swifta.com')->send(new MerchandiseUpdateAdminNotification($customerData));
+        Mail::to('info@oandbservices.com')->send(new MerchandiseUpdateAdminNotification($customerData));
 
         return redirect('/general-merchandise')->withStatus(__('Job updated successfully.'));
     }
@@ -182,8 +182,7 @@ class GeneralMerchandiseController extends Controller
             'job_loc'=>$gmerchandise->location,
             'job_start_time'=>$gmerchandise->time_frame,
         ];
-        Mail::to('jezeh@swifta.com')->send(new MerchandiseDeleteAdminNotification($customerData));
-        // Mail::to('info@oandbservices.com')->send(new MerchandiseDeleteAdminNotification($customerData));
+        Mail::to('info@oandbservices.com')->send(new MerchandiseDeleteAdminNotification($customerData));
 
         return redirect('/general-merchandise')->withStatus(__('Job deleted successfully.'));
     }

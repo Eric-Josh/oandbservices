@@ -14,7 +14,7 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <!-- <a href="{{ route('jobs.create') }}" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Post New Job</a> <br><br> -->
+                <a href="{{ route('jobs.create') }}" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Post New Job</a> <br><br>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered ">
                         <thead class="thead-dark">
@@ -25,8 +25,8 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Start Time</th>
                                 <th scope="col">Request Date</th>
-                                <!-- <th scope="col">Edit Job</th> -->
-                                <!-- <th scope="col">Delete</th> -->
+                                <th scope="col">Edit Job</th>
+                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,14 +43,14 @@
                                 @endif
                                 <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->time_frame }}</a></td>
                                 <td><a href="#" class="jobber" data-id="{{$job->id}}">{{ $job->created_at->format('j F, Y') }}</a></td>
-                                <!-- <td><a href="{{ route('jobs.edit', $job->id) }}">Edit</a></td> -->
-                                <!-- <td>
+                                <td><a href="{{ route('jobs.edit', $job->id) }}">Edit</a></td>
+                                <td>
                                     <form method="POST" action="{{ route('jobs.destroy', $job->id) }}">
                                     @csrf
                                     @method('delete')
                                     <button onclick="return confirm('Are you very sure?')" class="btn btn-outline-danger">Delete</button>
                                     </form>
-                                </td> -->
+                                </td>
                             </tr>
                             <!-- @php $i++; @endphp   -->
                             @endforeach
