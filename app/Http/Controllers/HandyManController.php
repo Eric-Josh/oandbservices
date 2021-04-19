@@ -14,6 +14,7 @@ use Auth;
 use App\Models\Jobs;
 use App\Models\JobTypes;
 use App\Models\HandyManUser;
+use App\Models\User;
 
 class HandyManController extends Controller
 {
@@ -54,7 +55,7 @@ class HandyManController extends Controller
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ]);
 
-        $newHandymanUser = new HandyManUser ([
+        $newHandymanUser = new User ([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
@@ -79,7 +80,7 @@ class HandyManController extends Controller
         $handyManRegUpdate = HandyManUser::findOrFail($id);
 
         $request->validate([
-            'phone' => 'required|numeric|digits:10',
+            'phone' => 'required|numeric|digits:11',
             'profession' => 'required|numeric',
             'address' => 'required',
         ]);

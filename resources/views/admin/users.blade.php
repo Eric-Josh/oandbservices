@@ -29,7 +29,7 @@
                                 <div class="col-xs-4"><span class="material-icons box-icon">engineering</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">ADMIN </p>
-                                    <p class="count-text"> {{ $usersTotal->where('user_type', 1)->count() }} </p>
+                                    <p class="count-text"> {{ $usersTotal->where('role_id', 1)->count() }} </p>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                 <div class="col-xs-4"><span class="material-icons box-icon">people_alt</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">CUTOMERS </p>
-                                    <p class="count-text"> {{ $usersTotal->where('user_type', 2)->count() }} </p>
+                                    <p class="count-text"> {{ $usersTotal->where('role_id', 2)->count() }} </p>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                 <div class="col-xs-4"><span class="material-icons box-icon">construction</span></div>
                                 <div class="col-xs-8">
                                     <p class="card-text inner-text">HANDYMAN </p>
-                                    <p class="count-text"> {{ $usersTotal->where('user_type', 3)->count() }} </p>
+                                    <p class="count-text"> {{ $usersTotal->where('role_id', 3)->count() }} </p>
                                 </div>            
                             </div>        
                         </div>
@@ -93,13 +93,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mt-4">
-                                        <x-jet-label for="role" value="{{ __('Role') }}" />
+                                        <!-- <x-jet-label for="role" value="{{ __('Role') }}" />
                                         <select name="user_type" id="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                                             <option value="0" selected="selected">All</option>
                                             <option value="1">Admin</option>
                                             <option value="2">Customer</option>
                                             <option value="3">Handyman</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                 </div>  
                                 <x-jet-button class="mt-4" id='search'>
@@ -124,16 +124,14 @@
                                     <tr>
                                         <td><a href="#{{ $user->id }}" class="user-details">{{ $user->name }}</a></td>
                                         <td><a href="#{{ $user->id }}" class="user-details">{{ $user->email }}</a></td>
-                                        <td><a href="#{{ $user->id }}" class="user-details">
-                                            @if($user->user_type == 1)
-                                            {{ 'Admin' }}
-                                            @elseif($user->user_type == 2)
-                                            {{ 'Customer' }}
-                                            @else
-                                            {{ 'Handyman'  }}
-                                            @endif
-                                            </a>
-                                        </td>
+                                        
+                                        @if ( $user->role_id == 1)
+                                        <td><span>{{ __('Admin') }}</span></td>
+                                        @elseif ( $user->role_id == 2)
+                                        <td><span  >{{ __('Customer') }}</span></td>
+                                        @elseif ( $user->role_id == 3)
+                                        <td><span  >{{ __('Handyman') }}</span></td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>

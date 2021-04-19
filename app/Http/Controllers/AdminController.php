@@ -234,8 +234,12 @@ class AdminController extends Controller
 
     public function userList ()
     {
-        $users = User::paginate(10);
-        $usersTotal = User::all();
+        $users = User::join('role_user', 'users.id','=','role_user.user_id')
+                        ->select('id','name','email','role_user.role_id')
+                        ->paginate(10);
+        // $users = User::paginate(10);
+        $usersTotal = User::join('role_user', 'users.id','=','role_user.user_id')
+                            ->select('id','name','email','role_user.role_id')->get();
 
         return view('admin.users', compact('users','usersTotal'));
     }
