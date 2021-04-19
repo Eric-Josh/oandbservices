@@ -19,7 +19,7 @@ class CheckRegistrationCompletedMiddleware
         if (is_null(auth()->user()->phone1) 
             && is_null(auth()->user()->address) 
             && is_null(auth()->user()->job_type_id) 
-            && auth()->user()->user_type == 3 )
+            && auth()->user()->hasRole('handyman') )
         {
             return redirect()->route('handyman-register-step-2.create');
         }

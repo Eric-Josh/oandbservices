@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/ico" href="{{ asset('images/favicon.ico') }}"/>
+        <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}"/>
 
         <title>O & B Services</title>
 
@@ -75,7 +75,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	        <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('images/dashboard-nav-72x72.png') }}" title="O & B Services"></a>
+                <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('images/obs-icon-72x72.png') }}" title="O & B Services"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="fa fa-bars"></span> Menu
                 </button>

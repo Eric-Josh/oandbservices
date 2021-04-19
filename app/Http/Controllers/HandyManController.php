@@ -58,9 +58,10 @@ class HandyManController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            'user_type' => '3',
+            // 'user_type' => '3',
         ]);
         $newHandymanUser->save();
+        $newHandymanUser->attachRole('handyman');
         Auth::login($newHandymanUser);
 
         return redirect()->route('handyman.dashboard');

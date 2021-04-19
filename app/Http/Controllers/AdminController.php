@@ -259,9 +259,9 @@ class AdminController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            'user_type' => '1',
         ]);
         $user->save();
+        $user->attachRole('superadministrator');
 
         return redirect()->route('admin.user-list')->withStatus('Admin user created successfully!');
     }

@@ -5,17 +5,17 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                @if(auth()->user()->user_type == 1 )
+                @if(auth()->user()->hasRole('superadministrator'))
                     <a href="{{ route('admin.dashboard') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 @endif
-                @if(auth()->user()->user_type == 3 )
+                @if(auth()->user()->hasRole('handyman'))
                     <a href="{{ route('handyman.dashboard') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 @endif
-                @if(auth()->user()->user_type == 2 )
+                @if(auth()->user()->hasRole('user'))
                     <a href="{{ route('customer-dashboard') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
@@ -26,7 +26,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
 
-                    @if(auth()->user()->user_type == 1 )
+                    @if(auth()->user()->hasRole('superadministrator') )
                         <x-jet-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')" >
                             {{ __('Dashboard') }}
                         </x-jet-nav-link>
@@ -89,7 +89,7 @@
                         </x-jet-nav-link>
                     @endif
 
-                    @if(auth()->user()->user_type == 3 )
+                    @if(auth()->user()->hasRole('handyman'))
                         <x-jet-nav-link href="{{ route('handyman.dashboard') }}" :active="request()->routeIs('handyman.dashboard')" >
                             {{ __('Dashboard') }}
                         </x-jet-nav-link>
@@ -98,7 +98,7 @@
                         </x-jet-nav-link>
                     @endif
 
-                    @if(auth()->user()->user_type == 2 )
+                    @if(auth()->user()->hasRole('user'))
                         <x-jet-nav-link href="{{ route('customer-dashboard') }}" :active="request()->routeIs('customer-dashboard')" >
                             {{ __('Dashboard') }}
                         </x-jet-nav-link>
@@ -261,7 +261,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
 
-            @if(auth()->user()->user_type == 2 )
+            @if(auth()->user()->hasRole('user'))
             <x-jet-responsive-nav-link href="{{ route('customer-dashboard') }}" :active="request()->routeIs('customer-dashboard')" >
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
@@ -300,7 +300,7 @@
                 </x-slot>
             </x-jet-dropdown >
             @endif
-            @if(auth()->user()->user_type == 3 )
+            @if(auth()->user()->hasRole('handyman'))
                 <x-jet-responsive-nav-link href="{{ route('handyman.dashboard') }}" :active="request()->routeIs('handyman.dashboard')" >
                     {{ __('Dashboard') }}
                 </x-jet-responsive-nav-link>
@@ -308,7 +308,7 @@
                     {{ __('Job History') }}
                 </x-jet-responsive-nav-link>
             @endif
-            @if(auth()->user()->user_type == 1 )
+            @if(auth()->user()->hasRole('superadministrator') )
             <x-jet-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')" >
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>

@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-        <link rel="shortcut icon" type="image/ico" href="{{ asset('images/favicon.ico') }}"/>
+        <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}"/>
 
         <!-- Styles -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
