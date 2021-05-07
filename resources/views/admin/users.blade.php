@@ -9,6 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class=" overflow-hidden shadow-xl sm:rounded-lg">
 
+                <!-- cardboard report -->
                 <div class="container">
                 <div class="card-deck">
                 
@@ -78,34 +79,40 @@
                     
                     <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-1" id="filter-section">
                         <div class="p-3">
+                            
+                            <form method="GET" action="{{ route('admin.user-search') }}">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mt-4">
                                         <x-jet-label for="name" value="{{ __('Name') }}" />
-                                        <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"  />
+                                        <input id="name" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
+                                            focus:ring-opacity-50 rounded-md shadow-sm" type="text" name="name" value="{{ request()->query('name') }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mt-4">
                                         <x-jet-label for="email" value="{{ __('Email') }}" />
-                                        <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"  />
+                                        <input id="email" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 
+                                            focus:ring-opacity-50 rounded-md shadow-sm" type="email" name="email" value="{{ request()->query('email') }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mt-4">
-                                        <!-- <x-jet-label for="role" value="{{ __('Role') }}" />
-                                        <select name="user_type" id="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                            <option value="0" selected="selected">All</option>
-                                            <option value="1">Admin</option>
-                                            <option value="2">Customer</option>
-                                            <option value="3">Handyman</option>
-                                        </select> -->
+                                        <x-jet-label for="role" value="{{ __('Role') }}" />
+                                        <select name="role" id="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                        <option selected>All</option>
+                                        <option value="1" {{ request()->query('role') ==  1 ? 'selected' : ''}} >Admin</option>
+                                        <option value="2" {{ request()->query('role') ==  2 ? 'selected' : ''}}>Customer</option>
+                                        <option value="3" {{ request()->query('role') ==  3 ? 'selected' : ''}}>Handyman</option>
+                                        </select>
                                     </div>
                                 </div>  
-                                <x-jet-button class="mt-4" id='search'>
+                                <x-jet-button class="mt-4">
                                     {{ __('Search') }} 
                                 </x-jet-button> 
                             </div>
+                            </form>
+                            
                         </div>
                     </div>
                         
@@ -136,7 +143,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $users->links() }}
+                            {{ $users->appends([
+                                        'name'=> request()->query('name'),
+                                        'email'=>request()->query('email')
+                                    ])
+                                    ->links() }}
                         </div>
                     </div>
 
@@ -168,7 +179,11 @@
 
 <script>
 $(function(){
-    $('#filter-section').hide();
+    if ( $('#name').val() || $('#email').val() ) {
+        $('#filter-section').show();
+    }else{
+        $('#filter-section').hide();
+    }  
 
     $('#filter').click(function(){
         $('#filter-section').toggle();

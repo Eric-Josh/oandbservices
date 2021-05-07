@@ -157,25 +157,51 @@ class AdminController extends Controller
         return view('admin.ajax-handyman-search', compact(['handymanSearch', 'jobId']));
     }
 
-    public function userSearch(Request $request)
+    public function userSearch()
     {
-        $name = $request->name;
-        $email = $request->email;
-        $role = $request->role;
 
-        if($role == 0 && $email == '' && $name == ''){
-            $roles = '%%';
+        $name = request()->query('name');
+        $email = request()->query('email');
+        $role = request()->query('role');
+
+        if($name || $email || $role ){
+
+            $users = new User;
+
+            if(isset($name)){
+                $users = $users->join('role_user as x', 'users.id','=','x.user_id')
+                            ->select('users.id','users.name','users.email','x.role_id')
+                            ->where('users.name','like', '%'.$name.'%');
+            }
+            if(isset($email)){
+                $users = $users->join('role_user as y', 'users.id','=','y.user_id')
+                            ->select('users.id','users.name','users.email','y.role_id')
+                            ->where('users.email','like', '%'.$email.'%');
+            }
+            if($role !='All' ){
+                $users = $users->join('role_user as a', 'users.id','=','a.user_id')
+                            ->select('users.id','users.name','users.email','a.role_id')
+                            ->where('a.role_id', $role);
+            }elseif($role == 'All'){
+                $users = $users->join('role_user as a', 'users.id','=','a.user_id')
+                            ->select('users.id','users.name','users.email','a.role_id');
+            }  
+                $users = $users->paginate(10);
+                $usersTotal = User::join('role_user', 'users.id','=','role_user.user_id')
+                            ->select('id','name','email','role_user.role_id')->get();
         }else{
-            $roles = ''.$role;
+
+            $users = User::
+            join('role_user', 'users.id','=','role_user.user_id')
+            ->select('id','name','email','role_user.role_id')
+            ->paginate(10);
+
+            $usersTotal = User::join('role_user', 'users.id','=','role_user.user_id')
+                            ->select('id','name','email','role_user.role_id')->get();
+
         }
 
-        $userSearch = User::where('name','like',''.$name)
-                                ->orWhere('email', 'like',''.$email)
-                                ->orWhere('user_type','like', $roles)
-                                ->orderBy('name','asc')->orderBy('email','asc')->orderBy('user_type','asc')
-                                ->paginate(20);
-
-        return view('admin.ajax-user-search', compact('userSearch'));
+        return view('admin.users', compact('users','usersTotal'));
     }
 
     public function userView (Request $request)
