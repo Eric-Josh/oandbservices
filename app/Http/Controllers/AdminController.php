@@ -17,6 +17,8 @@ use Mail;
 use App\Mail\JobAssignUserNotification;
 use App\Mail\JobAssignHandymanNotification;
 use App\Mail\JobCompletedNotification;
+// use Illuminate\Support\Facades\Log;
+
 
 class AdminController extends Controller
 {
@@ -261,12 +263,12 @@ class AdminController extends Controller
     public function userList ()
     {
         $users = User::join('role_user', 'users.id','=','role_user.user_id')
-                        ->select('id','name','email','role_user.role_id')
+                        ->select('id','name','email', 'email_verified_at', 'role_user.role_id')
                         ->paginate(10);
-        // $users = User::paginate(10);
+
         $usersTotal = User::join('role_user', 'users.id','=','role_user.user_id')
                             ->select('id','name','email','role_user.role_id')->get();
-
+                            
         return view('admin.users', compact('users','usersTotal'));
     }
 
@@ -294,6 +296,22 @@ class AdminController extends Controller
         $user->attachRole('superadministrator');
 
         return redirect()->route('admin.user-list')->withStatus('Admin user created successfully!');
+    }
+
+    public function userDelete(Request $request)
+    {
+        $id=$request->id;
+        foreach($id as $ids){
+            $users = User::findOrFail($ids)->delete();
+
+            // $jobs = Jobs::where('user_id',$ids)
+            //                 ->update(['deleted_at', date('Y-m-d H:m:s')]);
+
+            // $gms = GeneralMerchandise::where('user_id',$ids)
+            //                         ->update(['deleted_at', date('Y-m-d H:m:s')]);
+        }
+
+        return redirect()->route('admin.user-list')->withStatus('User deleted successfully!');
     }
 
      // Mail::send('mails.job-assign-handyman-notification', [

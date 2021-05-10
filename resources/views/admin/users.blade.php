@@ -73,6 +73,9 @@
                                 <div class=" text-lg text-gray-600 leading-1 font-semibold">
                                 <button class="btn btn-outline-dark" id="filter">Filters <span class="material-icons">filter_list</span></button> 
                                 </div>
+                                <button type="button" class="btn btn-outline-danger " style="display:none; margin-left: 20px;" id="del-btn" > 
+                                    Delete  <span class="material-icons"></span>
+                                </button>
                             </div>
                         </div>   
                     </div>
@@ -121,14 +124,19 @@
                             <table class="table table-hover table-bordered ">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th width="10"><input type="checkbox"  id="checkall"></th>
                                         <th scope="col">Name</th>  
                                         <th scope="col">Email</th>
                                         <th scope="col">Role</th>
+                                        <th scope="col">Verified Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="ms-tb">
                                     @foreach($users as $user)
                                     <tr>
+                                        <td>
+                                            <input type="checkbox" class="bulk-check" value="{{$user->id}}">
+                                        </td>
                                         <td><a href="#{{ $user->id }}" class="user-details">{{ $user->name }}</a></td>
                                         <td><a href="#{{ $user->id }}" class="user-details">{{ $user->email }}</a></td>
                                         
@@ -139,6 +147,13 @@
                                         @elseif ( $user->role_id == 3)
                                         <td><span  >{{ __('Handyman') }}</span></td>
                                         @endif
+
+                                        @if(is_null($user->email_verified_at))
+                                        <td>{{ __('Not Verified') }}</td>
+                                        @else
+                                        <td>{{ __('Verified') }}</td>
+                                        @endif
+
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -179,7 +194,64 @@
 
 <script>
 $(function(){
-    if ( $('#name').val() || $('#email').val() ) {
+
+    // bulk delete
+    $('#checkall').click(function(){
+
+    if ($(this).prop('checked') == true){
+        $('.bulk-check').prop('checked',true);
+        $('#del-btn').show();
+    }else{
+        $('.bulk-check').prop('checked',false);
+        $('#del-btn').hide();
+    }
+    });
+
+    $('#ms-tb :checkbox').change(function(){
+
+        if($('#ms-tb :checkbox:not(:checked)').length == 0){ 
+            // all are checked
+            $('#checkall').prop('checked', true);
+            $('#del-btn').show();
+        } else if($('#ms-tb :checkbox:checked').length >  0){
+            // all are unchecked
+            $('#checkall').prop('checked', false);
+            $('#del-btn').show();
+        }else{
+            $('#del-btn').hide();
+        }
+    });
+
+    $('#del-btn').click(function(){
+        if(confirm("Are you sure?")){
+            var delId = [];
+
+            $('.bulk-check:checked').each(function(i){
+                delId.push($(this).val());
+                element = this;
+            });
+
+            if(delId.length>0){
+                $.ajax({
+                    url: '/admin/user/bulkdelete',
+                    method: 'get',
+                    data: {id:delId},
+                    success:function(){
+                        for(var i=0; i<delId.length; i++)
+                        {
+                            $('tr#'+delId[i]+'').css('background-color', '#ccc');
+                            $('tr#'+delId[i]+'').fadeOut('slow');
+                            $('#checkall').prop('checked', false);
+                            $('#del-btn').hide();
+                        }
+                        location.reload();
+                    }
+                });
+            }
+        }
+    });
+
+    if ( $('#name').val() || $('#email').val() || $('#role').val() !='All' ) {
         $('#filter-section').show();
     }else{
         $('#filter-section').hide();

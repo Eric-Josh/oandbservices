@@ -14,6 +14,7 @@ use App\Http\Controllers\HandyManController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\BasicUserController;
+use App\Http\Controllers\GuestController;
 
 
 // use App\Models\Jobs;
@@ -33,9 +34,11 @@ use App\Http\Controllers\BasicUserController;
 |
 */
 
-Route::get('/', function () {
-    return view('guest');
+
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/', [GuestController::class, 'guest'])->name('guest');
 });
+    
 
 // email verification route
 Route::get('/email/verify', function () {
@@ -105,6 +108,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/user/search',[AdminController::class, 'userSearch'])->name('admin.user-search');
         Route::post('/admin/user',[AdminController::class, 'userStore'])->name('admin.user-store');
         Route::get('/admin/user/view',[AdminController::class, 'userView'])->name('admin.user-view');
+        Route::get('/admin/user/bulkdelete',[AdminController::class, 'userDelete'])->name('user.delete');
         
         Route::get('/jobtypes', [JobTypesController::class, 'index'])->name('jobtypes');
         Route::get('/jobtypes/create', [JobTypesController::class, 'create'])->name('jobtypes.create');

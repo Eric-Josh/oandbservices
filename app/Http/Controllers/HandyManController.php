@@ -59,7 +59,7 @@ class HandyManController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            // 'user_type' => '3',
+            'ipaddress' => \request()->ip(),
         ]);
         $newHandymanUser->save();
         $newHandymanUser->attachRole('handyman');

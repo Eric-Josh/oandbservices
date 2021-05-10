@@ -54,6 +54,7 @@
         </style>
     </head>
     <body data-spy="scroll" data-target="#ftco-navbar" data-offset="1">
+    <!-- <input type="hidden" id="sessionid" value="{{ session_id() }}" > -->
         <div class="wrap">
 			<div class="container">
 				<div class="row justify-content-between">

@@ -5,6 +5,7 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\CheckRegistrationCompletedMiddleware;
 use App\Http\Middleware\CheckBasicUserTypeMiddleware;
+use App\Http\Middleware\Guest;
 
 class Kernel extends HttpKernel
 {
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         // customly added
         'handyman_registration_completed' => CheckRegistrationCompletedMiddleware::class,
         'check_login_user_type' => CheckBasicUserTypeMiddleware::class,
+        'guest' => Guest::class,
     ];
 }
