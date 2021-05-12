@@ -1,3 +1,4 @@
+<style>
 /*custom font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
@@ -19,9 +20,9 @@ body {
 
 /*form styles*/
 #gmerchandise-form {
-	/* width: 400px; */
-	/* margin: 50px auto; */
-	/* text-align: center; */
+	width: 400px;
+	margin: 50px auto;
+	text-align: center;
 	position: relative;
 }
 #gmerchandise-form fieldset {
@@ -96,18 +97,7 @@ body {
 	width: 33.33%;
 	float: left;
 	position: relative;
-	/* padding-left: 100px; */
 }
-
-#progressbar li.lione {
-	padding-left: 100px;
-}
-
-#progressbar li.litwo {
-	padding-left: 100px;
-}
-
-
 #progressbar li:before {
 	content: counter(step);
 	counter-increment: step;
@@ -142,5 +132,4 @@ body {
 	color: white;
 }
 
-
-
+</style>

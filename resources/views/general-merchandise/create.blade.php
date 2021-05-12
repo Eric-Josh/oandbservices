@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="{{ asset('css/multi-step-form.css') }}">
+<link rel="stylesheet" href="{{ asset('css/multi-step-form.css') }}">
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -31,13 +31,6 @@
 
                             <form method="POST" action="{{ route('gmerchandise.store') }}" id="gmerchandise-form" enctype="multipart/form-data">
                                 @csrf
-                                <!-- progressbar -->
-                                <ul id="progressbar">
-                                    <li class="active">Job Type</li>
-                                    <li>Delivery Details</li>
-                                </ul>
-                                <!-- fieldsets -->
-	                            <fieldset>
                                 <div class="form-group">
                                     <label for="merchandise" class="labels">What would you like to have done?</label>
                                     <select class="custom-select block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 
@@ -57,11 +50,8 @@
                                     <span id="desc-notice"></span>
                                     <p id="jb-details"></p>
                                     <p>Include the size and the scope of the work</p>
-                                </div>
-                                <input type="button" name="next" class="next action-button" value="Next" />
-                                </fieldset>
+                                </div> 
 
-                                <fieldset>
                                 <div class="form-group">
                                     <label for="timeframe" class="labels">When would you like the job to start?</label><br>
                                     <div class="custom-control custom-radio ">
@@ -114,12 +104,10 @@
                                 </div> 
 
                                 <div class="flex items-center justify-end mt-4">
-                                    <input type="button" name="previous" class="previous action-button" value="Previous" />
-                                    <x-jet-button class="ml-4 submit">
+                                    <x-jet-button class="ml-4">
                                         {{ __('submit') }}
                                     </x-jet-button>
                                 </div>
-                            </fieldset>
                             </form>
                         </div>
 
@@ -131,12 +119,12 @@
     </div>
   
 </x-app-layout>
-<script src="https://cdn.tiny.cloud/1/nz91pgequ1i4nogj6arnwzcz01gd4h5d43gbnj6pdvyfdzzx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<!-- <script src="https://cdn.tiny.cloud/1/nz91pgequ1i4nogj6arnwzcz01gd4h5d43gbnj6pdvyfdzzx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
         // selector:'#desc'
     });
-</script>
+</script> -->
 
 <script type="text/javascript">
 $(function() {
