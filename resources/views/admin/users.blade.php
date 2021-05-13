@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-xs-4"><span class="material-icons box-icon">people_alt</span></div>
                                 <div class="col-xs-8">
-                                    <p class="card-text inner-text">CUTOMERS </p>
+                                    <p class="card-text inner-text">CUSTOMERS </p>
                                     <p class="count-text"> {{ $usersTotal->where('role_id', 2)->count() }} </p>
                                 </div>
                             </div>
